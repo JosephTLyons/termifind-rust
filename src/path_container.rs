@@ -57,15 +57,15 @@ impl PathContainer {
 
     pub fn print_path(&self) {
         for directory_container in &self.directory_container_vec_deque {
-            // let path_to_directory = &directory_container.path_to_directory;
-            // let length_of_current_path: usize = path_to_directory.to_string_lossy().chars().count();
-            // let line: String = make_repeated_char_string('=', length_of_current_path);
+            let path_to_directory = &directory_container.path_to_directory;
+            let length_of_current_path: usize = path_to_directory.to_string_lossy().chars().count();
+            let line: String = make_repeated_char_string('=', length_of_current_path);
 
-            // println!("{}", line);
-            // println!("{}", path_to_directory.to_string_lossy());
-            // println!("{}", line);
+            println!("{}", line);
+            println!("{}", path_to_directory.to_string_lossy());
+            println!("{}", line);
 
-            // println!();
+            println!();
             directory_container.print_directory_container();
             println!();
         }
