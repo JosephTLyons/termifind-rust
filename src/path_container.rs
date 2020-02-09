@@ -22,7 +22,7 @@ impl PathContainer {
 
         loop {
             let selected_directory_option: Option<PathBuf> =
-                if directory_container_vec_deque.len() > 0 {
+                if !directory_container_vec_deque.is_empty() {
                     Some(directory_container_vec_deque[0].path_to_directory.clone())
                 } else {
                     None
