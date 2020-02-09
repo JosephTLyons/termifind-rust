@@ -19,22 +19,19 @@ impl PathContainer {
 
         let mut parent_path: &Path = &path;
         let mut parent_path_result: Option<&Path>;
-        let mut counter: usize = 0;
 
         loop {
-            directory_container_vec_deque
-                .push_front(DirectoryContainer::new(parent_path.to_path_buf()));
+            let selected_directory_option: Option<PathBuf> =
+                if directory_container_vec_deque.len() > 0 {
+                    Some(directory_container_vec_deque[0].path_to_directory.clone())
+                } else {
+                    None
+                };
 
-            if counter > 0 {
-                let selected_directory_path =
-                    directory_container_vec_deque[1].path_to_directory.clone();
-
-                for directory_item in &mut directory_container_vec_deque[0].directory_item_vec {
-                    if directory_item.directory_entry.path() == selected_directory_path {
-                        directory_item.item_state = ItemState::DirectoryInPath;
-                    }
-                }
-            }
+            directory_container_vec_deque.push_front(DirectoryContainer::new(
+                parent_path.to_path_buf(),
+                &selected_directory_option,
+            ));
 
             parent_path_result = parent_path.parent();
 
@@ -42,12 +39,14 @@ impl PathContainer {
                 break;
             }
 
-            parent_path = parent_path_result.unwrap();
-            counter += 1;
+            parent_path = parent_path_result.expect("Oops");
         }
 
-        directory_container_vec_deque[counter].directory_item_vec[0].item_state =
-            ItemState::Selected;
+        if let Some(directory_container) = directory_container_vec_deque.back_mut() {
+            if let Some(directory_item) = directory_container.directory_item_vec.first_mut() {
+                directory_item.item_state = ItemState::Selected
+            }
+        }
 
         PathContainer {
             current_path: path,

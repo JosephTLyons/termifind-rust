@@ -16,19 +16,25 @@ pub struct DirectoryContainer {
 }
 
 impl DirectoryContainer {
-    pub fn new(path: PathBuf) -> Self {
+    pub fn new(path: PathBuf, selected_directory_option: &Option<PathBuf>) -> Self {
         let mut directory_item_vec: Vec<DirectoryItem> = Vec::new();
         let read_directory_iterator: ReadDir = read_dir(&path).expect("Oops");
         let mut length_of_longest_file_name: usize = 0;
 
         for file in read_directory_iterator {
-            let directory_item: DirectoryItem = DirectoryItem::new(file.expect("Oops"));
+            let mut directory_item: DirectoryItem = DirectoryItem::new(file.expect("Oops"));
 
             let length_of_file_name: usize =
                 directory_item.get_printable_file_name().chars().count();
 
             if length_of_file_name > length_of_longest_file_name {
                 length_of_longest_file_name = length_of_file_name
+            }
+
+            if let Some(selected_directory) = selected_directory_option {
+                if selected_directory == &directory_item.directory_entry.path() {
+                    directory_item.item_state = ItemState::DirectoryInPath;
+                }
             }
 
             directory_item_vec.push(directory_item);
