@@ -1,3 +1,5 @@
+use console::{style, StyledObject};
+
 pub fn make_repeated_char_string(character: char, repetitions: usize) -> String {
     std::iter::repeat(character)
         .take(repetitions)
@@ -56,4 +58,22 @@ fn add_padding_to_center_string_odd_test_odd_required_length() {
         String::from("   odd   "),
         add_padding_to_center_string("odd", 9)
     );
+}
+
+pub enum Color {
+    Blue,
+    Green,
+    White,
+}
+
+pub fn print_colored_text(text: String, color: Color) {
+    let styled_text = style(text);
+
+    let styled_colored_text = match color {
+        Color::Blue => styled_text.blue(),
+        Color::Green => styled_text.green(),
+        Color::White => styled_text.white(),
+    };
+
+    print!("{}", styled_colored_text);
 }

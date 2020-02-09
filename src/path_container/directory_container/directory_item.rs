@@ -1,5 +1,6 @@
-use console::style;
 use std::fs::DirEntry;
+
+use crate::utils::{print_colored_text, Color};
 
 #[allow(dead_code)]
 enum ItemType {
@@ -40,14 +41,12 @@ impl DirectoryItem {
     }
 
     pub fn print_colored_file_name_based_on_state(&self) {
-        let styled_file_name = style(self.get_printable_file_name());
-
-        let styled_colored_file_name = match self.item_state {
-            ItemState::Selected => styled_file_name.green(),
-            ItemState::Unselected => styled_file_name.white(),
-            ItemState::DirectoryInPath => styled_file_name.blue(),
+        let file_name = self.get_printable_file_name();
+        
+        match self.item_state {
+            ItemState::Selected => print_colored_text(file_name, Color::Green),
+            ItemState::Unselected => print_colored_text(file_name, Color::White),
+            ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
         };
-
-        print!("{}", styled_colored_file_name);
     }
 }
