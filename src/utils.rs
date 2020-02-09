@@ -1,4 +1,4 @@
-use console::{style, StyledObject};
+use console::style;
 
 pub fn make_repeated_char_string(character: char, repetitions: usize) -> String {
     std::iter::repeat(character)
