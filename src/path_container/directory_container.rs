@@ -71,7 +71,7 @@ impl DirectoryContainer {
 
         for directory_item in &self.directory_item_vec {
             print!("| ");
-            directory_item.print_directory_based_on_state();
+            directory_item.print_colored_file_name_based_on_state();
 
             let length_of_current_file_name: usize =
                 directory_item.get_printable_file_name().chars().count();
