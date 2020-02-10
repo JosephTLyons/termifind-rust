@@ -40,6 +40,11 @@ impl DirectoryContainer {
             directory_item_vec.push(directory_item);
         }
 
+        directory_item_vec.sort_by(|a, b| {
+            a.get_printable_file_name()
+                .partial_cmp(&b.get_printable_file_name()).expect("Oops")
+        });
+
         let directory_name: String = match path.file_name() {
             Some(d_name) => d_name.to_string_lossy().to_string(),
             None => String::from("root"),
@@ -52,11 +57,6 @@ impl DirectoryContainer {
         } else {
             length_of_longest_file_name
         };
-
-        directory_item_vec.sort_by(|a, b| {
-            a.get_printable_file_name()
-                .partial_cmp(&b.get_printable_file_name()).expect("Oops")
-        });
 
         DirectoryContainer {
             directory_name,
