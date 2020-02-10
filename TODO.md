@@ -12,6 +12,7 @@
 - print D, F, S, or U next to file
 - make actual selected item a different color (color enum)
 - horizontal?
+- Binary insert for files vs create vec and then sort
 
 ## Questionable:
 - print full path at each step?
