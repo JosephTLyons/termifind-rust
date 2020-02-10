@@ -53,6 +53,11 @@ impl DirectoryContainer {
             length_of_longest_file_name
         };
 
+        directory_item_vec.sort_by(|a, b| {
+            a.get_printable_file_name()
+                .partial_cmp(&b.get_printable_file_name()).expect("Oops")
+        });
+
         DirectoryContainer {
             directory_name,
             minimum_width,
@@ -92,8 +97,4 @@ impl DirectoryContainer {
 
         println!(" {} ", horizontal_line);
     }
-
-    // fn sort_items(&self) {
-    //     self.directory_item_vec.sort_by(|a, b| a.partial_cmp(b));
-    // }
 }

@@ -11,7 +11,6 @@
 ## Nice to haves:
 - print D, F, S, or U next to file
 - make actual selected item a different color (color enum)
-- sort items in item vecs
 - horizontal?
 
 ## Questionable:
