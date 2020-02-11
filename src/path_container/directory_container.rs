@@ -14,6 +14,12 @@ pub struct DirectoryContainer {
     pub directory_item_vec: Vec<DirectoryItem>,
 }
 
+enum TruncationOption {
+    None,
+    ByFileNameLength,
+    Constant,
+}
+
 impl DirectoryContainer {
     pub fn new(path: PathBuf, selected_directory_option: &Option<PathBuf>) -> Self {
         let mut directory_item_vec: Vec<DirectoryItem> = Vec::new();
