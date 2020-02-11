@@ -1,6 +1,6 @@
 use std::fs::DirEntry;
 
-use crate::utils::{print_colored_text, Color};
+use crate::utils::{print_colored_text, truncate_text, Color};
 
 pub enum ItemState {
     Selected,
@@ -18,6 +18,7 @@ pub enum ItemType {
 pub struct DirectoryItem {
     pub item_state: ItemState,
     pub directory_entry: DirEntry,
+    file_name_length_after_truncation: Option<usize>,
     item_type: ItemType,
 }
 
@@ -39,26 +40,9 @@ impl DirectoryItem {
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
+            file_name_length_after_truncation: Some(5),
             item_type,
         }
-    }
-
-    pub fn get_printable_file_name(&self) -> String {
-        let file_type_indicator_string = match self.item_type {
-            ItemType::Unknown => "(U)",
-            ItemType::File => "(F)",
-            ItemType::Directory => "(D)",
-            ItemType::Symlink => "(S)",
-        };
-
-        format!(
-            "{} {}",
-            file_type_indicator_string,
-            self.directory_entry
-                .file_name()
-                .to_string_lossy()
-                .to_string()
-        )
     }
 
     pub fn print_colored_file_name_based_on_state(&self) {
@@ -74,5 +58,40 @@ impl DirectoryItem {
             },
             ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
         };
+    }
+
+    pub fn get_printable_file_name(&self) -> String {
+        format!(
+            "{} {}",
+            self.get_file_type_indicator_string(),
+            self.get_truncated_file_name()
+        )
+    }
+
+    fn get_file_type_indicator_string(&self) -> &str {
+        match self.item_type {
+            ItemType::Unknown => "(U)",
+            ItemType::File => "(F)",
+            ItemType::Directory => "(D)",
+            ItemType::Symlink => "(S)",
+        }
+    }
+
+    fn get_truncated_file_name(&self) -> String {
+        let file_name = self
+            .directory_entry
+            .file_name()
+            .to_string_lossy()
+            .to_string();
+
+        if let Some(file_name_length_after_truncation) = self.file_name_length_after_truncation {
+            return truncate_text(
+                file_name,
+                file_name_length_after_truncation,
+                Some(String::from("...")),
+            );
+        }
+
+        file_name
     }
 }
