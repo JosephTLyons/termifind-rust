@@ -85,3 +85,58 @@ pub fn print_colored_text(text: String, color: Color) {
 
     print!("{}", styled_colored_text);
 }
+
+pub fn truncate_text(
+    text: String,
+    text_length_after_truncation: usize,
+    text_to_append_option: Option<String>,
+) -> String {
+    if text.chars().count() > text_length_after_truncation {
+        return match text_to_append_option {
+            Some(text_to_append) => format!(
+                "{}{}",
+                String::from(&text[..(text_length_after_truncation)]),
+                text_to_append
+            ),
+            None => String::from(&text[..(text_length_after_truncation)]),
+        };
+    }
+
+    text
+}
+
+#[test]
+fn truncate_text_shorter_file_name() {
+    assert_eq!(
+        truncate_text(String::from("Man"), 10, None),
+        String::from("Man")
+    )
+}
+
+#[test]
+fn truncate_text_longer_file_name() {
+    assert_eq!(
+        truncate_text(String::from("Man is scary!"), 8, None),
+        String::from("Man is s")
+    )
+}
+
+#[test]
+fn truncate_text_shorter_file_name_with_text_to_append() {
+    assert_eq!(
+        truncate_text(String::from("Dog"), 5, Some(String::from("..."))),
+        String::from("Dog")
+    )
+}
+
+#[test]
+fn truncate_text_longer_file_name_with_text_to_append_option() {
+    assert_eq!(
+        truncate_text(
+            String::from("Dog is super cool!"),
+            5,
+            Some(String::from("..."))
+        ),
+        String::from("Dog i...")
+    )
+}
