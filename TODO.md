@@ -2,14 +2,16 @@
 
 ## Required
 - live input (left, right, up, down, enter), erase current screen at each step
-- Use selected state
-- return path upon enter
+- return path upon enter or launch native default apps for the file type
 - handle all unwraps / expects
 - fix "root", use normal printable item from lib
 
 ## Nice to haves:
 - horizontal printing with arrows between directory containers?
-- Use bold styling for important things (selected directories, directory titles, etc)
+- condensed print - only show current directory and past x amount, omitting all
+  the previous ones
+- Use bold styling for important things (selected directories, directory titles,
+  etc)
 - Make a color key?
 
 ## Questionable:
