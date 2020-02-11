@@ -7,19 +7,17 @@
 - handle all unwraps / expects
 - fix "root", use normal printable item from lib
 
-
 ## Nice to haves:
-- print D, F, S, or U next to file
-- make actual selected item a different color (color enum)
-- horizontal?
-- Binary insert for files vs create vec and then sort
+- print D, F, S, or U next to file (with different colors) or have files themselves be different colors
+- horizontal printing with arrows between directory containers?
 
 ## Questionable:
 - print full path at each step?
+- Binary insert for files vs create vec and then sort?
 
 ## Cleanup
 - refactor long functions
-- format all files
+- rustfmt all files
 - rename all generic `x`-like variables
 - rename bad function names (print_path)
 - type annotations on everything
