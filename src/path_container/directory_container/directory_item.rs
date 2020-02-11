@@ -40,7 +40,7 @@ impl DirectoryItem {
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
-            file_name_length_after_truncation: Some(5),
+            file_name_length_after_truncation: None,
             item_type,
         }
     }
