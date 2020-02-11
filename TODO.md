@@ -8,14 +8,38 @@
 
 ## Nice to haves:
 - horizontal printing with arrows between directory containers?
+- Option for vertical print or horizontal print (will be able to print either
+  way with new row printing function)
 - condensed print - only show current directory and past x amount, omitting all
   the previous ones
 - Remove breadcrumps after horizontal printing is done
-- Option to truncate item names to x characters long (which will let more
-  directory containers fit horizontally) or to print full names
+- Truncation options:
+      1. None
+      2. Constant: Truncate all to same length
+      3. ByFileNameLength: -> 0 -> truncate longest to length
+         of 2nd longest file name, 1 -> truncate 1st/2nd to length of 3rd file
+
+         sort file names by length, pick the number to truncate to, and call number 2
+
+      NOTES: If the directory container name is longer than the truncation
+      value, then use that as the truncation value
+      Number 3: Just past in a number to begin with to determine which level to
+      truncate to.  Later, we might be able to use some sort of stats to figure
+      out which level to truncate to:
+          truncate to the average file name length - preserve the majority of words
+          truncate to only the outliers (furthest from the mean crossing some threshold)
+
+      option to truncate directory name too?? prob not, but maybe!
+      another options that uses more stats to dynamically choose which directory
+      containers to truncate based on average -> only truncate if it has a few
+      crazy long names
+
+      should truncation length include the ...?
+
 - Use bold styling for important things (selected directories, directory titles,
   etc)
 - Make a color key?
+- Numbered items?
 
 ## Questionable:
 - Should just the file type indicator be colored or the whole line?
@@ -30,3 +54,4 @@
 - type annotations on everything
 - Remove dead_code tags and silence warnings
 - Remove commented out code?
+- Make private and things that don't need to be public
