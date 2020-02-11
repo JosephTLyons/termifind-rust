@@ -68,34 +68,54 @@ impl DirectoryContainer {
     }
 
     pub fn print_directory_container(&self) {
-        println!(
-            " {} ",
-            make_repeated_char_string('-', self.minimum_width + 2)
-        );
-        println!(
-            "|{}|",
-            add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
-        );
-        println!(
-            "|{}|",
-            make_repeated_char_string('=', self.minimum_width + 2)
-        );
-
-        for directory_item in &self.directory_item_vec {
-            print!("| ");
-            directory_item.print_colored_file_name_based_on_state();
-
-            let length_of_current_file_name: usize =
-                directory_item.get_printable_file_name().chars().count();
-            let difference: usize = self.minimum_width - length_of_current_file_name;
-            let space_padding: String = make_repeated_char_string(' ', difference);
-
-            print!("{}", space_padding);
-            println!(" |");
+        for i in 0..self.get_total_number_of_rows() {
+            self.print_directory_container_by_row(i);
         }
+    }
 
-        let horizontal_line = make_repeated_char_string('-', self.minimum_width + 2);
+    pub fn print_directory_container_by_row(&self, row_number: usize) {
+        if row_number < self.get_total_number_of_rows() - 1 {
+            match row_number {
+                0 => println!(
+                    " {} ",
+                    make_repeated_char_string('-', self.minimum_width + 2)
+                ),
+                1 => println!(
+                    "|{}|",
+                    add_padding_to_center_string(&self.directory_name, self.minimum_width + 2)
+                ),
+                2 => println!(
+                    "|{}|",
+                    make_repeated_char_string('=', self.minimum_width + 2)
+                ),
+                _ => {
+                    print!("| ");
 
-        println!(" {} ", horizontal_line);
+                    let directory_item = &self.directory_item_vec[row_number - 3];
+                    directory_item.print_colored_file_name_based_on_state();
+
+                    let length_of_current_file_name: usize =
+                        directory_item.get_printable_file_name().chars().count();
+                    let difference: usize = self.minimum_width - length_of_current_file_name;
+
+                    println!("{} |", make_repeated_char_string(' ', difference));
+                }
+            }
+        }
+        else {
+            println!(" {} ", make_repeated_char_string('-', self.minimum_width + 2));
+        }
+    }
+
+    pub fn get_total_number_of_rows(&self) -> usize {
+        self.get_number_of_directory_items() + 4
+    }
+
+    pub fn get_number_of_directory_items(&self) -> usize {
+        self.directory_item_vec.len()
+    }
+
+    pub fn get_total_width_of_directory_container(&self) -> usize {
+        self.minimum_width + 4
     }
 }
