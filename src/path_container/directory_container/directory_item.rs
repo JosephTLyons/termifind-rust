@@ -3,16 +3,16 @@ use std::fs::DirEntry;
 use crate::utils::{print_colored_text, truncate_text, Color};
 
 pub enum ItemState {
+    DirectoryInPath,
     Selected,
     Unselected,
-    DirectoryInPath,
 }
 
 pub enum ItemType {
-    Unknown,
-    File,
     Directory,
+    File,
     Symlink,
+    Unknown,
 }
 
 pub struct DirectoryItem {
@@ -49,14 +49,14 @@ impl DirectoryItem {
         let file_name = self.get_printable_file_name();
 
         match self.item_state {
+            ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
             ItemState::Selected => print_colored_text(file_name, Color::Green),
             ItemState::Unselected => match self.item_type {
-                ItemType::Unknown => print_colored_text(file_name, Color::Cyan),
-                ItemType::File => print_colored_text(file_name, Color::Magenta),
                 ItemType::Directory => print_colored_text(file_name, Color::White),
+                ItemType::File => print_colored_text(file_name, Color::Magenta),
                 ItemType::Symlink => print_colored_text(file_name, Color::Red),
+                ItemType::Unknown => print_colored_text(file_name, Color::Cyan),
             },
-            ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
         };
     }
 
