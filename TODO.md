@@ -10,6 +10,9 @@
 - horizontal printing with arrows between directory containers?
 - condensed print - only show current directory and past x amount, omitting all
   the previous ones
+- Remove breadcrumps after horizontal printing is done
+- Option to truncate item names to x characters long (which will let more
+  directory containers fit horizontally) or to print full names
 - Use bold styling for important things (selected directories, directory titles,
   etc)
 - Make a color key?
