@@ -15,7 +15,6 @@ pub enum ItemType {
     Symlink,
 }
 
-#[allow(dead_code)]
 pub struct DirectoryItem {
     pub item_state: ItemState,
     pub directory_entry: DirEntry,

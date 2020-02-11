@@ -7,7 +7,6 @@ pub use directory_item::{DirectoryItem, ItemState, ItemType};
 
 use crate::utils::{add_padding_to_center_string, make_repeated_char_string};
 
-#[allow(dead_code)]
 pub struct DirectoryContainer {
     pub directory_name: String,
     pub minimum_width: usize,
