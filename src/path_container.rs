@@ -16,16 +16,19 @@ pub struct PathContainer {
 impl PathContainer {
     pub fn new(path: PathBuf) -> Self {
         let mut directory_container_vec_deque: VecDeque<DirectoryContainer> = VecDeque::new();
-
         let mut parent_path: &Path = &path;
-        let mut parent_path_result: Option<&Path>;
 
         loop {
             let selected_directory_option: Option<PathBuf> =
                 if directory_container_vec_deque.is_empty() {
                     None
                 } else {
-                    Some(directory_container_vec_deque[0].path_to_directory.clone())
+                    match directory_container_vec_deque.front_mut() {
+                        Some(first_directory_container) => {
+                            Some(first_directory_container.path_to_directory.clone())
+                        }
+                        None => None,
+                    }
                 };
 
             directory_container_vec_deque.push_front(DirectoryContainer::new(
@@ -33,13 +36,10 @@ impl PathContainer {
                 &selected_directory_option,
             ));
 
-            parent_path_result = parent_path.parent();
-
-            if parent_path_result.is_none() {
-                break;
+            match parent_path.parent() {
+                Some(p_path) => parent_path = p_path,
+                None => break,
             }
-
-            parent_path = parent_path_result.expect("Oops");
         }
 
         if let Some(directory_container) = directory_container_vec_deque.back_mut() {
