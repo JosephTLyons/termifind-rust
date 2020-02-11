@@ -8,10 +8,12 @@
 - fix "root", use normal printable item from lib
 
 ## Nice to haves:
-- print D, F, S, or U next to file (with different colors) or have files themselves be different colors
 - horizontal printing with arrows between directory containers?
+- Use bold styling for important things (selected directories, directory titles, etc)
+- Make a color key?
 
 ## Questionable:
+- Should just the file type indicator be colored or the whole line?
 - print full path at each step?
 - Binary insert for files vs create vec and then sort?
 
