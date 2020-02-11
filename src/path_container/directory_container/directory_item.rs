@@ -45,10 +45,21 @@ impl DirectoryItem {
     }
 
     pub fn get_printable_file_name(&self) -> String {
-        self.directory_entry
-            .file_name()
-            .to_string_lossy()
-            .to_string()
+        let file_type_indicator_string = match self.item_type {
+            ItemType::Unknown => "(U)",
+            ItemType::File => "(F)",
+            ItemType::Directory => "(D)",
+            ItemType::Symlink => "(S)",
+        };
+
+        format!(
+            "{} {}",
+            file_type_indicator_string,
+            self.directory_entry
+                .file_name()
+                .to_string_lossy()
+                .to_string()
+        )
     }
 
     pub fn print_colored_file_name_based_on_state(&self) {
