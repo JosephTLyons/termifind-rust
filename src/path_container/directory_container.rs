@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use std::vec::Vec;
 
 mod directory_item;
-pub use directory_item::{DirectoryItem, ItemState};
+pub use directory_item::{DirectoryItem, ItemState, ItemType};
 
 use crate::utils::{add_padding_to_center_string, make_repeated_char_string};
 
@@ -42,7 +42,8 @@ impl DirectoryContainer {
 
         directory_item_vec.sort_by(|a, b| {
             a.get_printable_file_name()
-                .partial_cmp(&b.get_printable_file_name()).expect("Oops")
+                .partial_cmp(&b.get_printable_file_name())
+                .expect("Oops")
         });
 
         let directory_name: String = match path.file_name() {
