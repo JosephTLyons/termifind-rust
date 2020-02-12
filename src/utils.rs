@@ -60,6 +60,7 @@ fn add_padding_to_center_string_odd_test_odd_required_length() {
     );
 }
 
+#[allow(dead_code)]
 pub enum Color {
     Black,
     Blue,
