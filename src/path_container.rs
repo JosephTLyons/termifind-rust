@@ -34,6 +34,7 @@ impl PathContainer {
             directory_container_vec_deque.push_front(DirectoryContainer::new(
                 parent_path.to_path_buf(),
                 &selected_directory_option,
+                None,
             ));
 
             match parent_path.parent() {

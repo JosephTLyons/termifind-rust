@@ -21,13 +21,18 @@ enum TruncationOption {
 }
 
 impl DirectoryContainer {
-    pub fn new(path: PathBuf, selected_directory_option: &Option<PathBuf>) -> Self {
+    pub fn new(
+        path: PathBuf,
+        selected_directory_option: &Option<PathBuf>,
+        file_name_truncation_settings_option: Option<(usize, bool)>,
+    ) -> Self {
         let mut directory_item_vec: Vec<DirectoryItem> = Vec::new();
         let read_directory_iterator: ReadDir = read_dir(&path).expect("Oops");
         let mut length_of_longest_file_name: usize = 0;
 
         for file in read_directory_iterator {
-            let mut directory_item: DirectoryItem = DirectoryItem::new(file.expect("Oops"));
+            let mut directory_item: DirectoryItem =
+                DirectoryItem::new(file.expect("Oops"), file_name_truncation_settings_option);
 
             let length_of_file_name: usize =
                 directory_item.get_printable_file_name().chars().count();
@@ -106,9 +111,11 @@ impl DirectoryContainer {
                     println!("{} |", make_repeated_char_string(' ', difference));
                 }
             }
-        }
-        else {
-            println!(" {} ", make_repeated_char_string('-', self.minimum_width + 2));
+        } else {
+            println!(
+                " {} ",
+                make_repeated_char_string('-', self.minimum_width + 2)
+            );
         }
     }
 
