@@ -18,7 +18,7 @@ pub enum ItemType {
 pub struct DirectoryItem {
     pub item_state: ItemState,
     pub directory_entry: DirEntry,
-    file_name_length_after_truncation: Option<usize>,
+    file_name_length_after_truncation_option: Option<usize>,
     item_type: ItemType,
 }
 
@@ -40,7 +40,7 @@ impl DirectoryItem {
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
-            file_name_length_after_truncation: None,
+            file_name_length_after_truncation_option: None,
             item_type,
         }
     }
@@ -84,11 +84,14 @@ impl DirectoryItem {
             .to_string_lossy()
             .to_string();
 
-        if let Some(file_name_length_after_truncation) = self.file_name_length_after_truncation {
+        if let Some(file_name_length_after_truncation) =
+            self.file_name_length_after_truncation_option
+        {
             return truncate_text(
                 file_name,
                 file_name_length_after_truncation,
                 Some(String::from("...")),
+                false,
             );
         }
 
