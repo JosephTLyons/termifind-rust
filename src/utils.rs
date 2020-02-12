@@ -89,24 +89,23 @@ pub fn print_colored_text(text: String, color: Color) {
 pub fn truncate_text(
     text: String,
     mut text_length_after_truncation: usize,
-    text_to_append_option: Option<String>,
-    include_appended_text_in_length: bool,
+    text_to_append_option: Option<(String, bool)>,
 ) -> String {
     if text.chars().count() > text_length_after_truncation {
         return match text_to_append_option {
             Some(text_to_append) => {
-                if include_appended_text_in_length {
-                    if text_length_after_truncation <= text_to_append.chars().count() {
-                        return String::from(&text_to_append[..(text_length_after_truncation)]);
+                if text_to_append.1 {
+                    if text_length_after_truncation <= text_to_append.0.chars().count() {
+                        return String::from(&text_to_append.0[..(text_length_after_truncation)]);
                     } else {
-                        text_length_after_truncation -= text_to_append.chars().count()
+                        text_length_after_truncation -= text_to_append.0.chars().count()
                     }
                 }
 
                 format!(
                     "{}{}",
                     String::from(&text[..(text_length_after_truncation)]),
-                    text_to_append
+                    text_to_append.0
                 )
             }
             None => String::from(&text[..(text_length_after_truncation)]),
@@ -119,7 +118,7 @@ pub fn truncate_text(
 #[test]
 fn truncate_text_shorter_file_name() {
     assert_eq!(
-        truncate_text(String::from("Man"), 10, None, false),
+        truncate_text(String::from("Man"), 10, None),
         String::from("Man")
     )
 }
@@ -127,7 +126,7 @@ fn truncate_text_shorter_file_name() {
 #[test]
 fn truncate_text_longer_file_name() {
     assert_eq!(
-        truncate_text(String::from("Man is scary!"), 8, None, false),
+        truncate_text(String::from("Man is scary!"), 8, None),
         String::from("Man is s")
     )
 }
@@ -135,7 +134,7 @@ fn truncate_text_longer_file_name() {
 #[test]
 fn truncate_text_shorter_file_name_with_text_to_append() {
     assert_eq!(
-        truncate_text(String::from("Dog"), 5, Some(String::from("...")), false),
+        truncate_text(String::from("Dog"), 5, Some((String::from("..."), false))),
         String::from("Dog")
     )
 }
@@ -146,8 +145,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option() {
         truncate_text(
             String::from("Dog is super cool!"),
             5,
-            Some(String::from("...")),
-            false
+            Some((String::from("..."), false)),
         ),
         String::from("Dog i...")
     )
@@ -156,7 +154,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option() {
 #[test]
 fn truncate_text_shorter_file_name_include_appended_text() {
     assert_eq!(
-        truncate_text(String::from("Man"), 10, None, true),
+        truncate_text(String::from("Man"), 10, None),
         String::from("Man")
     )
 }
@@ -164,7 +162,7 @@ fn truncate_text_shorter_file_name_include_appended_text() {
 #[test]
 fn truncate_text_longer_file_name_include_appended_text() {
     assert_eq!(
-        truncate_text(String::from("Man is scary!"), 8, None, true),
+        truncate_text(String::from("Man is scary!"), 8, None),
         String::from("Man is s")
     )
 }
@@ -172,7 +170,7 @@ fn truncate_text_longer_file_name_include_appended_text() {
 #[test]
 fn truncate_text_shorter_file_name_with_text_to_append_include_appended_text() {
     assert_eq!(
-        truncate_text(String::from("Dog"), 5, Some(String::from("...")), true),
+        truncate_text(String::from("Dog"), 5, Some((String::from("..."), true))),
         String::from("Dog")
     )
 }
@@ -183,8 +181,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option_include_appended_te
         truncate_text(
             String::from("Dog is super cool!"),
             4,
-            Some(String::from("...")),
-            true
+            Some((String::from("..."), true)),
         ),
         String::from("D...")
     )
@@ -196,8 +193,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option_include_appended_te
         truncate_text(
             String::from("Dog is super cool!"),
             3,
-            Some(String::from("...")),
-            true
+            Some((String::from("..."), true)),
         ),
         String::from("...")
     )
@@ -209,8 +205,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option_include_appended_te
         truncate_text(
             String::from("Dog is super cool!"),
             2,
-            Some(String::from("...")),
-            true
+            Some((String::from("..."), true)),
         ),
         String::from("..")
     )
@@ -222,8 +217,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option_include_appended_te
         truncate_text(
             String::from("Dog is super cool!"),
             1,
-            Some(String::from("...")),
-            true
+            Some((String::from("..."), true)),
         ),
         String::from(".")
     )
@@ -235,8 +229,7 @@ fn truncate_text_longer_file_name_with_text_to_append_option_include_appended_te
         truncate_text(
             String::from("Dog is super cool!"),
             0,
-            Some(String::from("...")),
-            true
+            Some((String::from("..."), true)),
         ),
         String::from("")
     )

@@ -91,8 +91,7 @@ impl DirectoryItem {
             return truncate_text(
                 file_name,
                 file_name_length_after_truncation.0,
-                Some(String::from("...")),
-                file_name_length_after_truncation.1,
+                Some((String::from("..."), file_name_length_after_truncation.1)),
             );
         }
 
