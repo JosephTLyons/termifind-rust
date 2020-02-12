@@ -18,14 +18,14 @@ pub enum ItemType {
 pub struct DirectoryItem {
     pub item_state: ItemState,
     pub directory_entry: DirEntry,
-    file_name_truncation_settings_option: Option<(usize, bool)>,
+    name_truncation_settings_option: Option<(usize, bool)>,
     item_type: ItemType,
 }
 
 impl DirectoryItem {
     pub fn new(
         directory_entry: DirEntry,
-        file_name_truncation_settings_option: Option<(usize, bool)>,
+        name_truncation_settings_option: Option<(usize, bool)>,
     ) -> Self {
         let item_type = match directory_entry.metadata() {
             Ok(metadata) => {
@@ -43,7 +43,7 @@ impl DirectoryItem {
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
-            file_name_truncation_settings_option,
+            name_truncation_settings_option,
             item_type,
         }
     }
@@ -87,7 +87,7 @@ impl DirectoryItem {
             .to_string_lossy()
             .to_string();
 
-        if let Some(file_name_length_after_truncation) = self.file_name_truncation_settings_option {
+        if let Some(file_name_length_after_truncation) = self.name_truncation_settings_option {
             return truncate_text(
                 file_name,
                 file_name_length_after_truncation.0,

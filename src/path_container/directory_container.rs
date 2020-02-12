@@ -24,7 +24,7 @@ impl DirectoryContainer {
     pub fn new(
         path: PathBuf,
         selected_directory_option: &Option<PathBuf>,
-        file_name_truncation_settings_option: Option<(usize, bool)>,
+        name_truncation_settings_option: Option<(usize, bool)>,
     ) -> Self {
         let mut directory_item_vec: Vec<DirectoryItem> = Vec::new();
         let read_directory_iterator: ReadDir = read_dir(&path).expect("Oops");
@@ -32,7 +32,7 @@ impl DirectoryContainer {
 
         for file in read_directory_iterator {
             let mut directory_item: DirectoryItem =
-                DirectoryItem::new(file.expect("Oops"), file_name_truncation_settings_option);
+                DirectoryItem::new(file.expect("Oops"), name_truncation_settings_option);
 
             let length_of_file_name: usize =
                 directory_item.get_printable_file_name().chars().count();
