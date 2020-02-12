@@ -4,7 +4,6 @@
 - live input (left, right, up, down, enter), erase current screen at each step
 - return path upon enter or launch native default apps for the file type
 - handle all unwraps / expects
-- fix "root", use normal printable item from lib
 
 ## Nice to haves:
 - horizontal printing with arrows between directory containers?

@@ -58,7 +58,7 @@ impl DirectoryContainer {
 
         let directory_name: String = match path.file_name() {
             Some(d_name) => d_name.to_string_lossy().to_string(),
-            None => String::from("root"),
+            None => path.to_string_lossy().to_string(),
         };
 
         let length_of_current_directory_name = directory_name.chars().count();
