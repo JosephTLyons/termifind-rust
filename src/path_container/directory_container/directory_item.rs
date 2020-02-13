@@ -56,6 +56,18 @@ impl DirectoryItem {
         self.get_file_name().chars().count()
     }
 
+    pub fn get_file_name_with_type_indicator(&self) -> String {
+        format!(
+            "{} {}",
+            self.get_file_type_indicator_string(),
+            self.get_truncated_file_name()
+        )
+    }
+
+    pub fn get_file_name_with_file_type_indicator_length(&self) -> usize {
+        self.get_file_name_with_type_indicator().chars().count()
+    }
+
     // Change this to a get instead of a print?
     pub fn print_styled_file_name_with_file_type_indicator(&self) {
         let file_name = self.get_file_name_with_type_indicator();
@@ -70,18 +82,6 @@ impl DirectoryItem {
                 ItemType::Unknown => print_colored_text(file_name, Color::Cyan),
             },
         };
-    }
-
-    fn get_file_name_with_type_indicator(&self) -> String {
-        format!(
-            "{} {}",
-            self.get_file_type_indicator_string(),
-            self.get_truncated_file_name()
-        )
-    }
-
-    pub fn get_file_name_with_file_type_indicator_length(&self) -> usize {
-        self.get_file_name_with_type_indicator().chars().count()
     }
 
     fn get_file_type_indicator_string(&self) -> &str {
