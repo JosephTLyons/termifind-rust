@@ -42,7 +42,7 @@ impl DirectoryContainer {
                 DirectoryItem::new(file.expect("Oops"), name_truncation_settings_option);
 
             let length_of_file_name: usize =
-                directory_item.get_file_name_length();
+                directory_item.get_file_name_with_file_type_indicator_length();
 
             if length_of_file_name > length_of_longest_file_name {
                 length_of_longest_file_name = length_of_file_name
@@ -58,8 +58,8 @@ impl DirectoryContainer {
         }
 
         directory_item_vec.sort_by(|a, b| {
-            a.get_printable_file_name()
-                .partial_cmp(&b.get_printable_file_name())
+            a.get_file_name()
+                .partial_cmp(&b.get_file_name())
                 .expect("Oops")
         });
 
@@ -103,10 +103,10 @@ impl DirectoryContainer {
                     print!("| ");
 
                     let directory_item = &self.directory_item_vec[row_number - 3];
-                    directory_item.print_colored_file_name_based_on_state();
+                    directory_item.print_styled_file_name_with_file_type_indicator();
 
                     let length_of_current_file_name: usize =
-                        directory_item.get_file_name_length();
+                        directory_item.get_file_name_with_file_type_indicator_length();
                     let difference: usize = self.minimum_width - length_of_current_file_name;
 
                     print!("{} |", make_repeated_char_string(' ', difference));
@@ -136,7 +136,8 @@ impl DirectoryContainer {
         let mut file_name_length_vec: Vec<usize> = Vec::new();
 
         for directory_item in &self.directory_item_vec {
-            file_name_length_vec.push(directory_item.get_file_name_length());
+            file_name_length_vec
+                .push(directory_item.get_file_name_length());
         }
 
         file_name_length_vec
