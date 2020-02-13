@@ -84,6 +84,16 @@ impl DirectoryContainer {
         }
     }
 
+    // fn get_truncation_setting(
+    //     low_level_truncation_option: LowLevelTruncationOptions,
+    // ) -> Option<(usize, bool)> {
+    //     match low_level_truncation_option {
+    //         LowLevelTruncationOptions::None => None,
+    //         LowLevelTruncationOptions::ByFileNameLength => None,
+    //         LowLevelTruncationOptions::Constant => None,
+    //     }
+    // }
+
     pub fn print_directory_container_by_row(&self, row_number: usize) {
         if row_number < self.get_total_height_of_directory_container() - 1 {
             match row_number {
