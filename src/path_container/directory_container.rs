@@ -42,7 +42,7 @@ impl DirectoryContainer {
                 DirectoryItem::new(file.expect("Oops"), name_truncation_settings_option);
 
             let length_of_file_name: usize =
-                directory_item.get_printable_file_name().chars().count();
+                directory_item.get_file_name_length();
 
             if length_of_file_name > length_of_longest_file_name {
                 length_of_longest_file_name = length_of_file_name
@@ -106,7 +106,7 @@ impl DirectoryContainer {
                     directory_item.print_colored_file_name_based_on_state();
 
                     let length_of_current_file_name: usize =
-                        directory_item.get_printable_file_name().chars().count();
+                        directory_item.get_file_name_length();
                     let difference: usize = self.minimum_width - length_of_current_file_name;
 
                     print!("{} |", make_repeated_char_string(' ', difference));

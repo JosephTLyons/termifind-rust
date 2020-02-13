@@ -97,4 +97,8 @@ impl DirectoryItem {
 
         file_name
     }
+
+    pub fn get_file_name_length(&self) -> usize {
+        self.get_printable_file_name().chars().count()
+    }
 }
