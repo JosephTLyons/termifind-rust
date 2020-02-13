@@ -29,21 +29,31 @@
           truncate to only the outliers (furthest from the mean crossing some threshold)
 
       option to truncate directory name too?? prob not, but maybe!
+
       another options that uses more stats to dynamically choose which directory
-      containers to truncate based on average -> only truncate if it has a few
-      crazy long names
+      containers to truncate based on average -> try to truncate file names that
+      are far away from the average, to the average length
 
       should truncation length include the ...?
+
+      should ... occur in middle of string? maybe an option for it? if so,
+      unit tests
+
+      move text to append into truncation options
 
 - Use bold styling for important things (selected directories, directory titles,
   etc)
 - Make a color key?
 - Numbered items?
+- print by row function using match entirely
+- DirecroryContainer, be able to print a fixed height version, use same sort of
+  stats that file name truncation will used
 
 ## Questionable:
 - Should just the file type indicator be colored or the whole line?
 - print full path at each step?
 - Binary insert for files vs create vec and then sort?
+- Should directory names have their file separator character before them?
 
 ## Cleanup
 - refactor long functions
@@ -54,3 +64,13 @@
 - Remove dead_code tags and silence warnings
 - Remove commented out code?
 - Make private and things that don't need to be public
+- Make todo into issues and use labels, delete todo
+- Put string to append in option
+
+## Crates to Consider:
+- Crossterm
+- ncurses rs
+- prettytable
+
+## Research
+- Why does the right side of the terminal seem to not be printable to?
