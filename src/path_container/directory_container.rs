@@ -8,7 +8,7 @@ pub use directory_item::{DirectoryItem, ItemState, ItemType};
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 #[allow(dead_code)]
-enum TruncationOption {
+enum LowLevelTruncationOptions {
     None,
     ByFileNameLength,
     Constant,
@@ -16,7 +16,7 @@ enum TruncationOption {
 
 #[allow(dead_code)]
 enum AutomaticTruncationOptions {
-    Statistical, // Uses ByFileNameLength
+    Statistical,                       // Uses ByFileNameLength
     FitAllDirectoryContainersInOneRow, // Uses Constant
 }
 
