@@ -84,12 +84,6 @@ impl DirectoryContainer {
         }
     }
 
-    pub fn print_directory_container(&self) {
-        for i in 0..self.get_total_height_of_directory_container() {
-            self.print_directory_container_by_row(i);
-        }
-    }
-
     pub fn print_directory_container_by_row(&self, row_number: usize) {
         if row_number < self.get_total_height_of_directory_container() - 1 {
             match row_number {
