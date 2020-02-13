@@ -48,29 +48,27 @@ impl DirectoryItem {
         }
     }
 
-    pub fn get_file_name(&self) -> String {
-        self.directory_entry.file_name().to_string_lossy().to_string()
+    pub fn get_file_name(&self, include_type_indicator: bool) -> String {
+        if include_type_indicator {
+            return format!(
+                "{} {}",
+                self.get_file_type_indicator_string(),
+                self.get_truncated_file_name()
+            );
+        }
+
+        self.get_truncated_file_name()
     }
 
-    pub fn get_file_name_length(&self) -> usize {
-        self.get_file_name().chars().count()
-    }
-
-    pub fn get_file_name_with_type_indicator(&self) -> String {
-        format!(
-            "{} {}",
-            self.get_file_type_indicator_string(),
-            self.get_truncated_file_name()
-        )
-    }
-
-    pub fn get_file_name_with_file_type_indicator_length(&self) -> usize {
-        self.get_file_name_with_type_indicator().chars().count()
+    pub fn get_file_name_length(&self, include_type_indicator_in_length: bool) -> usize {
+        self.get_file_name(include_type_indicator_in_length)
+            .chars()
+            .count()
     }
 
     // Change this to a get instead of a print?
     pub fn print_styled_file_name_with_file_type_indicator(&self) {
-        let file_name = self.get_file_name_with_type_indicator();
+        let file_name = self.get_file_name(true);
 
         match self.item_state {
             ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
@@ -94,7 +92,11 @@ impl DirectoryItem {
     }
 
     fn get_truncated_file_name(&self) -> String {
-        let file_name = self.get_file_name();
+        let file_name = self
+            .directory_entry
+            .file_name()
+            .to_string_lossy()
+            .to_string();
 
         if let Some(file_name_length_after_truncation) = self.name_truncation_settings_option {
             return truncate_text(
