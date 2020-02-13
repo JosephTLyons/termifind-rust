@@ -5,7 +5,7 @@ use std::vec::Vec;
 mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType};
 
-use crate::utils::{add_padding_to_center_string, make_repeated_char_string};
+use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 pub struct DirectoryContainer {
     pub directory_name: String,

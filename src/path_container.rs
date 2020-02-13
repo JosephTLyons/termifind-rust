@@ -5,7 +5,7 @@ mod directory_container;
 use directory_container::DirectoryContainer;
 use directory_container::ItemState;
 
-use crate::utils::make_repeated_char_string;
+use crate::utils::string::make_repeated_char_string;
 
 #[allow(dead_code)]
 pub struct PathContainer {
