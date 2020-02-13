@@ -131,4 +131,14 @@ impl DirectoryContainer {
     pub fn get_number_of_directory_items(&self) -> usize {
         self.directory_item_vec.len()
     }
+
+    pub fn get_lengths_of_file_names(&self) -> Vec<usize> {
+        let mut file_name_length_vec: Vec<usize> = Vec::new();
+
+        for directory_item in &self.directory_item_vec {
+            file_name_length_vec.push(directory_item.get_file_name_length());
+        }
+
+        file_name_length_vec
+    }
 }
