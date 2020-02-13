@@ -84,10 +84,10 @@ impl DirectoryItem {
 
     fn get_file_type_indicator_string(&self) -> &str {
         match self.item_type {
-            ItemType::Unknown => "(U)",
-            ItemType::File => "(F)",
             ItemType::Directory => "(D)",
+            ItemType::File => "(F)",
             ItemType::Symlink => "(S)",
+            ItemType::Unknown => "(U)",
         }
     }
 
