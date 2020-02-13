@@ -14,10 +14,17 @@ pub struct DirectoryContainer {
     pub directory_item_vec: Vec<DirectoryItem>,
 }
 
+#[allow(dead_code)]
 enum TruncationOption {
     None,
     ByFileNameLength,
     Constant,
+}
+
+#[allow(dead_code)]
+enum AutomaticTruncationOptions {
+    Statistical, // Uses ByFileNameLength
+    FitAllDirectoryContainersInOneRow, // Uses Constant
 }
 
 impl DirectoryContainer {
@@ -78,23 +85,23 @@ impl DirectoryContainer {
     }
 
     pub fn print_directory_container(&self) {
-        for i in 0..self.get_total_number_of_rows() {
+        for i in 0..self.get_total_height_of_directory_container() {
             self.print_directory_container_by_row(i);
         }
     }
 
     pub fn print_directory_container_by_row(&self, row_number: usize) {
-        if row_number < self.get_total_number_of_rows() - 1 {
+        if row_number < self.get_total_height_of_directory_container() - 1 {
             match row_number {
-                0 => println!(
+                0 => print!(
                     " {} ",
                     make_repeated_char_string('-', self.minimum_width + 2)
                 ),
-                1 => println!(
+                1 => print!(
                     "|{}|",
                     add_padding_to_center_string(&self.directory_name, self.minimum_width + 2)
                 ),
-                2 => println!(
+                2 => print!(
                     "|{}|",
                     make_repeated_char_string('=', self.minimum_width + 2)
                 ),
@@ -108,26 +115,26 @@ impl DirectoryContainer {
                         directory_item.get_printable_file_name().chars().count();
                     let difference: usize = self.minimum_width - length_of_current_file_name;
 
-                    println!("{} |", make_repeated_char_string(' ', difference));
+                    print!("{} |", make_repeated_char_string(' ', difference));
                 }
             }
         } else {
-            println!(
+            print!(
                 " {} ",
                 make_repeated_char_string('-', self.minimum_width + 2)
             );
         }
     }
 
-    pub fn get_total_number_of_rows(&self) -> usize {
+    pub fn get_total_width_of_directory_container(&self) -> usize {
+        self.minimum_width + 4
+    }
+
+    pub fn get_total_height_of_directory_container(&self) -> usize {
         self.get_number_of_directory_items() + 4
     }
 
     pub fn get_number_of_directory_items(&self) -> usize {
         self.directory_item_vec.len()
-    }
-
-    pub fn get_total_width_of_directory_container(&self) -> usize {
-        self.minimum_width + 4
     }
 }

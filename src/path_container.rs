@@ -1,5 +1,6 @@
 use std::collections::VecDeque;
 use std::path::{Path, PathBuf};
+extern crate term_size;
 
 mod directory_container;
 use directory_container::DirectoryContainer;
@@ -11,6 +12,8 @@ use crate::utils::string::make_repeated_char_string;
 pub struct PathContainer {
     current_path: PathBuf,
     directory_container_vec_deque: VecDeque<DirectoryContainer>,
+    horizontal_spacing_between_directory_containers: usize,
+    vertical_spacing_between_directory_containers: usize,
 }
 
 impl PathContainer {
@@ -52,22 +55,119 @@ impl PathContainer {
         PathContainer {
             current_path: path,
             directory_container_vec_deque,
+            horizontal_spacing_between_directory_containers: 1,
+            vertical_spacing_between_directory_containers: 1,
         }
     }
 
     pub fn print_path(&self) {
-        for directory_container in &self.directory_container_vec_deque {
-            let path_to_directory = &directory_container.path_to_directory;
-            let length_of_current_path: usize = path_to_directory.to_string_lossy().chars().count();
-            let line: String = make_repeated_char_string('=', length_of_current_path);
+        let mut start_and_end_iteration_tuple: (usize, usize) =
+            self.update_start_and_end_iteration_tuple((0, 0));
 
-            println!("{}", line);
-            println!("{}", path_to_directory.to_string_lossy());
-            println!("{}", line);
+        while start_and_end_iteration_tuple.0 < self.directory_container_vec_deque.len() {
+            self.print_one_line_of_directory_containers(start_and_end_iteration_tuple);
 
-            println!();
-            directory_container.print_directory_container();
+            start_and_end_iteration_tuple =
+                self.update_start_and_end_iteration_tuple(start_and_end_iteration_tuple);
+        }
+    }
+
+    // CLEAN THIS UP!!!
+    fn update_start_and_end_iteration_tuple(
+        &self,
+        mut start_and_end_iteration_tuple: (usize, usize),
+    ) -> (usize, usize) {
+        let mut previous_directory_containers_space_requirement = 0;
+        let terminal_dimensions = term_size::dimensions().expect("Oops");
+
+        start_and_end_iteration_tuple.0 = start_and_end_iteration_tuple.1;
+
+        loop {
+            let spacing_width = 2 * self.horizontal_spacing_between_directory_containers;
+
+            let current_directory_container_space_requirement =
+                if start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len() {
+                    self.directory_container_vec_deque[start_and_end_iteration_tuple.1]
+                        .get_total_width_of_directory_container()
+                        + spacing_width
+                } else {
+                    0
+                };
+
+            let all_directory_containers_space_requirement =
+                previous_directory_containers_space_requirement
+                    + current_directory_container_space_requirement;
+
+            let has_space_for_all_directory_containers =
+                all_directory_containers_space_requirement < terminal_dimensions.0;
+
+            let not_at_end_of_directory_container_deque =
+                start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len();
+
+            if has_space_for_all_directory_containers && not_at_end_of_directory_container_deque {
+                previous_directory_containers_space_requirement += self
+                    .directory_container_vec_deque[start_and_end_iteration_tuple.1]
+                    .get_total_width_of_directory_container()
+                    + spacing_width;
+                start_and_end_iteration_tuple.1 += 1;
+            } else {
+                break start_and_end_iteration_tuple;
+            }
+        }
+    }
+
+    fn print_one_line_of_directory_containers(
+        &self,
+        start_and_end_iteration_tuple: (usize, usize),
+    ) {
+        let height_of_tallest_container =
+            self.get_height_of_tallest_directory_container_in_range(start_and_end_iteration_tuple);
+
+        for i in 0..height_of_tallest_container + self.vertical_spacing_between_directory_containers
+        {
+            for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
+                self.print_one_row_of_each_directory_container(j, i);
+            }
+
             println!();
         }
+    }
+
+    fn get_height_of_tallest_directory_container_in_range(
+        &self,
+        start_and_end_iteration_tuple: (usize, usize),
+    ) -> usize {
+        let mut height_of_tallest_container = 0;
+
+        for i in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
+            let directory_container = &self.directory_container_vec_deque[i];
+            let container_height = directory_container.get_total_height_of_directory_container();
+
+            if height_of_tallest_container < container_height {
+                height_of_tallest_container = container_height;
+            }
+        }
+
+        height_of_tallest_container
+    }
+
+    fn print_one_row_of_each_directory_container(&self, x: usize, row_number: usize) {
+        if row_number
+            < self.directory_container_vec_deque[x].get_total_height_of_directory_container()
+        {
+            self.directory_container_vec_deque[x].print_directory_container_by_row(row_number);
+        } else {
+            print!(
+                "{}",
+                make_repeated_char_string(
+                    ' ',
+                    self.directory_container_vec_deque[x].get_total_width_of_directory_container()
+                )
+            );
+        }
+        print!(
+            "{}",
+            make_repeated_char_string(' ', self.horizontal_spacing_between_directory_containers)
+        );
     }
 }
