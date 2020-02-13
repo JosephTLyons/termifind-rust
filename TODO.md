@@ -48,6 +48,8 @@
 - print by row function using match entirely
 - DirecroryContainer, be able to print a fixed height version, use same sort of
   stats that file name truncation will used
+- Be able to sort files by name (sort by file name) or by type and then name
+  (sort by name with type indicator)
 
 ## Questionable:
 - Should just the file type indicator be colored or the whole line?
@@ -55,7 +57,7 @@
 - Binary insert for files vs create vec and then sort?
 - Should directory names have their file separator character before them?
 
-## Cleanup
+## Clean up
 - refactor long functions
 - rustfmt all files
 - rename all generic `x`-like variables
@@ -66,6 +68,8 @@
 - Make private and things that don't need to be public
 - Make todo into issues and use labels, delete todo
 - Put string to append in option
+- Sort all pub vs private stuff (struct members, functions, etc.)
+- Change print styled file name to be a get ...
 
 ## Crates to Consider:
 - Crossterm
