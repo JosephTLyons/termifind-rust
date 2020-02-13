@@ -7,13 +7,6 @@ pub use directory_item::{DirectoryItem, ItemState, ItemType};
 
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
-pub struct DirectoryContainer {
-    pub directory_name: String,
-    pub minimum_width: usize,
-    pub path_to_directory: PathBuf,
-    pub directory_item_vec: Vec<DirectoryItem>,
-}
-
 #[allow(dead_code)]
 enum TruncationOption {
     None,
@@ -25,6 +18,13 @@ enum TruncationOption {
 enum AutomaticTruncationOptions {
     Statistical, // Uses ByFileNameLength
     FitAllDirectoryContainersInOneRow, // Uses Constant
+}
+
+pub struct DirectoryContainer {
+    pub directory_name: String,
+    pub minimum_width: usize,
+    pub path_to_directory: PathBuf,
+    pub directory_item_vec: Vec<DirectoryItem>,
 }
 
 impl DirectoryContainer {
