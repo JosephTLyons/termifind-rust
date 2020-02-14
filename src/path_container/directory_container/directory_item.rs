@@ -66,9 +66,8 @@ impl DirectoryItem {
             .count()
     }
 
-    // Change this to a get instead of a print?
-    pub fn print_styled_file_name_with_file_type_indicator(&self) {
-        let file_name = self.get_file_name(true);
+    pub fn print_styled_file_name(&self, include_type_indicator: bool) {
+        let file_name = self.get_file_name(include_type_indicator);
 
         match self.item_state {
             ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),

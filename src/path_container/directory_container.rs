@@ -41,8 +41,7 @@ impl DirectoryContainer {
             let mut directory_item: DirectoryItem =
                 DirectoryItem::new(file.expect("Oops"), name_truncation_settings_option);
 
-            let length_of_file_name: usize =
-                directory_item.get_file_name_length(true);
+            let length_of_file_name: usize = directory_item.get_file_name_length(true);
 
             if length_of_file_name > length_of_longest_file_name {
                 length_of_longest_file_name = length_of_file_name
@@ -113,7 +112,7 @@ impl DirectoryContainer {
                     print!("| ");
 
                     let directory_item = &self.directory_item_vec[row_number - 3];
-                    directory_item.print_styled_file_name_with_file_type_indicator();
+                    directory_item.print_styled_file_name(true);
 
                     let length_of_current_file_name: usize =
                         directory_item.get_file_name_length(true);
@@ -146,8 +145,7 @@ impl DirectoryContainer {
         let mut file_name_length_vec: Vec<usize> = Vec::new();
 
         for directory_item in &self.directory_item_vec {
-            file_name_length_vec
-                .push(directory_item.get_file_name_length(false));
+            file_name_length_vec.push(directory_item.get_file_name_length(false));
         }
 
         file_name_length_vec
