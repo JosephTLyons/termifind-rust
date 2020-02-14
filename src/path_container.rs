@@ -22,21 +22,9 @@ impl PathContainer {
         let mut parent_path: &Path = &path;
 
         loop {
-            let selected_directory_option: Option<PathBuf> =
-                if directory_container_vec_deque.is_empty() {
-                    None
-                } else {
-                    match directory_container_vec_deque.front_mut() {
-                        Some(first_directory_container) => {
-                            Some(first_directory_container.path_to_directory.clone())
-                        }
-                        None => None,
-                    }
-                };
-
             directory_container_vec_deque.push_front(DirectoryContainer::new(
                 parent_path.to_path_buf(),
-                &selected_directory_option,
+                &PathContainer::get_selected_directory_option(&directory_container_vec_deque),
                 None,
             ));
 
@@ -46,17 +34,39 @@ impl PathContainer {
             }
         }
 
-        if let Some(directory_container) = directory_container_vec_deque.back_mut() {
-            if let Some(directory_item) = directory_container.directory_item_vec.first_mut() {
-                directory_item.item_state = ItemState::Selected
-            }
-        }
+        PathContainer::select_first_directory_in_current_directory_container(
+            &mut directory_container_vec_deque,
+        );
 
         PathContainer {
             current_path: path,
             directory_container_vec_deque,
             horizontal_spacing_between_directory_containers: 1,
             vertical_spacing_between_directory_containers: 1,
+        }
+    }
+
+    fn get_selected_directory_option(
+        directory_container_vec_deque: &VecDeque<DirectoryContainer>,
+    ) -> Option<PathBuf> {
+        if directory_container_vec_deque.is_empty() {
+            return None;
+        }
+        match directory_container_vec_deque.front() {
+            Some(first_directory_container) => {
+                Some(first_directory_container.path_to_directory.clone())
+            }
+            None => None,
+        }
+    }
+
+    fn select_first_directory_in_current_directory_container(
+        directory_container_vec_deque: &mut VecDeque<DirectoryContainer>,
+    ) {
+        if let Some(directory_container) = directory_container_vec_deque.back_mut() {
+            if let Some(directory_item) = directory_container.directory_item_vec.first_mut() {
+                directory_item.item_state = ItemState::Selected
+            }
         }
     }
 
