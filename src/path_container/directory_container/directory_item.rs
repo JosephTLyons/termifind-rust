@@ -27,7 +27,18 @@ impl DirectoryItem {
         directory_entry: DirEntry,
         name_truncation_settings_option: Option<(usize, bool)>,
     ) -> Self {
-        let item_type = match directory_entry.metadata() {
+        let item_type = DirectoryItem::get_item_type(&directory_entry);
+
+        DirectoryItem {
+            item_state: ItemState::Unselected,
+            directory_entry,
+            name_truncation_settings_option,
+            item_type
+        }
+    }
+
+    fn get_item_type(directory_entry: &DirEntry) -> ItemType {
+        match directory_entry.metadata() {
             Ok(metadata) => {
                 if metadata.is_dir() {
                     ItemType::Directory
@@ -38,13 +49,6 @@ impl DirectoryItem {
                 }
             }
             Err(_) => ItemType::Unknown,
-        };
-
-        DirectoryItem {
-            item_state: ItemState::Unselected,
-            directory_entry,
-            name_truncation_settings_option,
-            item_type,
         }
     }
 
