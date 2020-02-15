@@ -15,29 +15,27 @@ pub enum ItemType {
     Unknown,
 }
 
+#[derive(Clone)]
 pub struct NameTruncationSettings {
-    file_length_after_truncation: usize,
-    should_include_appended_text_in_length: bool,
+    pub name_length_after_truncation: usize,
+    pub should_include_appended_text_in_length: bool,
 }
 
 pub struct DirectoryItem {
-    pub item_state: ItemState,
     pub directory_entry: DirEntry,
+    pub item_state: ItemState,
     pub name_truncation_settings_option: Option<NameTruncationSettings>,
     item_type: ItemType,
 }
 
 impl DirectoryItem {
-    pub fn new(
-        directory_entry: DirEntry,
-        name_truncation_settings_option: Option<NameTruncationSettings>,
-    ) -> Self {
+    pub fn new(directory_entry: DirEntry) -> Self {
         let item_type = DirectoryItem::get_item_type(&directory_entry);
 
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
-            name_truncation_settings_option,
+            name_truncation_settings_option: None,
             item_type,
         }
     }
@@ -109,7 +107,7 @@ impl DirectoryItem {
         if let Some(name_truncation_settings) = &self.name_truncation_settings_option {
             return truncate_text(
                 file_name,
-                name_truncation_settings.file_length_after_truncation,
+                name_truncation_settings.name_length_after_truncation,
                 Some((
                     String::from("..."),
                     name_truncation_settings.should_include_appended_text_in_length,
