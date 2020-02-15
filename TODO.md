@@ -1,10 +1,5 @@
 # TODO
 
-## Required
-- live input (left, right, up, down, enter), erase current screen at each step
-- return path upon enter or launch native default apps for the file type
-- handle all unwraps / expects
-
 ## Nice to haves:
 - horizontal printing with arrows between directory containers?
 - Option for vertical print or horizontal print (will be able to print either
@@ -80,9 +75,4 @@
 - Move enums closer to their usage or keep them all at top?
 
 ## Crates to Consider:
-- Crossterm
-- ncurses rs
 - prettytable
-
-## Research
-- Why does the right side of the terminal seem to not be printable to?
