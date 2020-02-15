@@ -11,7 +11,7 @@
   way with new row printing function)
 - condensed print - only show current directory and past x amount, omitting all
   the previous ones
-- Remove breadcrumps after horizontal printing is done
+- Remove breadcrumbs after horizontal printing is done
 - Truncation options:
       1. None
       2. Constant: Truncate all to same length
@@ -46,16 +46,10 @@
 - Make a color key?
 - Numbered items?
 - print by row function using match entirely
-- DirecroryContainer, be able to print a fixed height version, use same sort of
+- DirectoryContainer, be able to print a fixed height version, use same sort of
   stats that file name truncation will used
 - Be able to sort files by name (sort by file name) or by type and then name
   (sort by name with type indicator)
-
-## Questionable:
-- Should just the file type indicator be colored or the whole line?
-- print full path at each step?
-- Binary insert for files vs create vec and then sort?
-- Should directory names have their file separator character before them?
 
 ## Clean up
 - refactor long functions
@@ -69,7 +63,20 @@
 - Make todo into issues and use labels, delete todo
 - Put string to append in option
 - Sort all pub vs private stuff (struct members, functions, etc.)
+- Remove all pubs that aren't needed
 - Change print styled file name to be a get ...
+- Use non-self functions to clean up new() functions, organize these all to be
+  directly below the new function and in order of execution
+- Convert all remaining tuples into structs
+- Should enums all go in their own file?
+- Reduce clone count
+
+## Questionable:
+- Should just the file type indicator be colored or the whole line?
+- print full path at each step?
+- Binary insert for files vs create vec and then sort?
+- Should directory names have their file separator character before them?
+- Move enums closer to their usage or keep them all at top?
 
 ## Crates to Consider:
 - Crossterm
