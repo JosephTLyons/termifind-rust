@@ -67,14 +67,6 @@ impl DirectoryContainer {
         directory_container
     }
 
-    fn apply_truncation_settings_to_directory_container(
-        &mut self,
-        low_level_truncation_options: TruncationOptions,
-    ) {
-        self.set_truncation_settings(low_level_truncation_options);
-        self.set_minimum_width();
-    }
-
     fn sort_directory_items(&mut self, by_file_type: bool) {
         let name_truncation_settings_option = &self.name_truncation_settings_option.clone();
 
@@ -83,6 +75,14 @@ impl DirectoryContainer {
                 .partial_cmp(&b.get_file_name(by_file_type, &name_truncation_settings_option))
                 .expect("Oops")
         });
+    }
+
+    fn apply_truncation_settings_to_directory_container(
+        &mut self,
+        truncation_options: TruncationOptions,
+    ) {
+        self.set_truncation_settings(truncation_options);
+        self.set_minimum_width();
     }
 
     fn set_truncation_settings(&mut self, truncation_options: TruncationOptions) {
