@@ -24,7 +24,6 @@ pub struct NameTruncationSettings {
 pub struct DirectoryItem {
     pub directory_entry: DirEntry,
     pub item_state: ItemState,
-    pub name_truncation_settings_option: Option<NameTruncationSettings>,
     item_type: ItemType,
 }
 
@@ -35,7 +34,6 @@ impl DirectoryItem {
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
-            name_truncation_settings_option: None,
             item_type,
         }
     }
@@ -55,26 +53,42 @@ impl DirectoryItem {
         }
     }
 
-    pub fn get_file_name(&self, include_type_indicator: bool) -> String {
+    pub fn get_file_name(
+        &self,
+        include_type_indicator: bool,
+        name_truncation_settings_option: &Option<NameTruncationSettings>,
+    ) -> String {
         if include_type_indicator {
             return format!(
                 "{} {}",
                 self.get_file_type_indicator_string(),
-                self.get_truncated_file_name()
+                self.get_truncated_file_name(&name_truncation_settings_option)
             );
         }
 
-        self.get_truncated_file_name()
+        self.get_truncated_file_name(&name_truncation_settings_option)
     }
 
-    pub fn get_file_name_length(&self, include_type_indicator_in_length: bool) -> usize {
-        self.get_file_name(include_type_indicator_in_length)
-            .chars()
-            .count()
+    pub fn get_file_name_length(
+        &self,
+        include_type_indicator_in_length: bool,
+        name_truncation_settings_option: &Option<NameTruncationSettings>,
+    ) -> usize {
+        self.get_file_name(
+            include_type_indicator_in_length,
+            &name_truncation_settings_option,
+        )
+        .chars()
+        .count()
     }
 
-    pub fn print_styled_file_name(&self, include_type_indicator: bool) {
-        let file_name = self.get_file_name(include_type_indicator);
+    pub fn print_styled_file_name(
+        &self,
+        include_type_indicator: bool,
+        name_truncation_settings_option: &Option<NameTruncationSettings>,
+    ) {
+        let file_name =
+            self.get_file_name(include_type_indicator, &name_truncation_settings_option);
 
         match self.item_state {
             ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
@@ -97,14 +111,17 @@ impl DirectoryItem {
         }
     }
 
-    fn get_truncated_file_name(&self) -> String {
+    fn get_truncated_file_name(
+        &self,
+        name_truncation_settings_option: &Option<NameTruncationSettings>,
+    ) -> String {
         let file_name = self
             .directory_entry
             .file_name()
             .to_string_lossy()
             .to_string();
 
-        if let Some(name_truncation_settings) = &self.name_truncation_settings_option {
+        if let Some(name_truncation_settings) = name_truncation_settings_option {
             return truncate_text(
                 file_name,
                 name_truncation_settings.name_length_after_truncation,
