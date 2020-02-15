@@ -11,7 +11,7 @@ use crate::utils::string::{add_padding_to_center_string, make_repeated_char_stri
 enum TruncationOptions {
     None,
     Constant,
-    Level,
+    Level{level: usize},
     Statistical,                       // Performs calculations and then uses Level
     FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
 }
@@ -89,8 +89,8 @@ impl DirectoryContainer {
         self.name_truncation_settings_option = match truncation_options {
             TruncationOptions::None => None,
             TruncationOptions::Constant => None, // Implement
-            TruncationOptions::Level => Some(NameTruncationSettings {
-                name_length_after_truncation: self.get_truncation_value_by_level(0).expect("Oops"),
+            TruncationOptions::Level{level} => Some(NameTruncationSettings {
+                name_length_after_truncation: self.get_truncation_value_by_level(level).expect("Oops"),
                 should_include_appended_text_in_length: false,
             }),
             TruncationOptions::Statistical => None, // Implement
