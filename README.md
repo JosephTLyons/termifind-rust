@@ -66,3 +66,8 @@ There is a TODO.md file with a bunch of notes quickly scribbled down, but I will
 be moving these to GitHub Issues and cleaning them up.
 
 This README.md file is not comprehensive; more needs to be discussed here.
+
+## Note
+
+- I use Clippy and try to silence all warnings emitted by Clippy
+- I run rustfmt on all Rust files
