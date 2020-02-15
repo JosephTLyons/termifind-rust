@@ -68,9 +68,13 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(true);
         directory_container.apply_truncation_settings_to_directory_container(
-            // TruncationOptions::Level { level: 0 },
-            TruncationOptions::Constant {
-                constant: 10,
+            // TruncationOptions::None,
+            // TruncationOptions::Constant {
+            //     constant: 3,
+            //     should_include_appended_text_in_length: false,
+            // },
+            TruncationOptions::Level {
+                level: 0,
                 should_include_appended_text_in_length: false,
             },
         );
@@ -97,8 +101,6 @@ impl DirectoryContainer {
     }
 
     fn set_truncation_settings(&mut self, truncation_options: TruncationOptions) {
-        let should_include_appended_text_length = true;
-
         self.name_truncation_settings_option = match truncation_options {
             TruncationOptions::None => None,
             TruncationOptions::Constant {
@@ -113,7 +115,7 @@ impl DirectoryContainer {
                 should_include_appended_text_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncation_value_by_level(level),
-                should_include_appended_text_in_length: should_include_appended_text_length,
+                should_include_appended_text_in_length: should_include_appended_text_in_length,
             }),
             TruncationOptions::Statistical => None, // Implement
             TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
