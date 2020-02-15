@@ -62,8 +62,8 @@ least wide enough to print the full container name.
 ## Work to be done
 
 There is a lot of work to be done in order to make TermiFind a useable tool.
-There is a TODO.md file with a bunch of notes quickly scribbled down, but I will
-be moving these to GitHub Issues and cleaning them up.
+Check the GitHub Issues for some things that could be worked on if you are
+interested in helping
 
 This README.md file is not comprehensive; more needs to be discussed here.
 
