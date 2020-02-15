@@ -1,5 +1,5 @@
 [package]
-name = "path_builder"
+name = "termifind"
 version = "0.1.0"
 authors = ["Joseph T Lyons <JosephTLyons@gmail.com>"]
 edition = "2018"
