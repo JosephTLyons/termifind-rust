@@ -18,7 +18,10 @@ enum TruncationOptions {
         level: usize,
         should_include_appended_text_in_length: bool,
     },
-    Statistical,                       // Performs calculations and then uses Level
+    AverageFileName {
+        should_include_appended_text_in_length: bool,
+    },
+    RemoveOutliers,                    // Performs calculations and then uses Level
     FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
 }
 
@@ -68,13 +71,7 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(true);
         directory_container.apply_truncation_settings_to_directory_container(
-            // TruncationOptions::None,
-            // TruncationOptions::Constant {
-            //     constant: 3,
-            //     should_include_appended_text_in_length: false,
-            // },
-            TruncationOptions::Level {
-                level: 0,
+            TruncationOptions::AverageFileName {
                 should_include_appended_text_in_length: false,
             },
         );
@@ -117,13 +114,21 @@ impl DirectoryContainer {
                 name_length_after_truncation: self.get_truncation_value_by_level(level),
                 should_include_appended_text_in_length,
             }),
-            TruncationOptions::Statistical => None, // Implement
+            TruncationOptions::AverageFileName {
+                should_include_appended_text_in_length,
+            } => Some(NameTruncationSettings {
+                name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
+                should_include_appended_text_in_length,
+            }),
+            TruncationOptions::RemoveOutliers => None, // Implement
             TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
         }
     }
 
     fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
-        let file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
+        let mut file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
+        file_name_length_and_position_vec.reverse();
+
         let vec_length = file_name_length_and_position_vec.len();
 
         level += 1;
@@ -133,6 +138,21 @@ impl DirectoryContainer {
         }
 
         file_name_length_and_position_vec[vec_length - 1].0
+    }
+
+    fn get_truncated_value_by_file_name_average(&self) -> usize {
+        let file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
+        let mut sum_of_file_name_lengths: usize = 0;
+
+        for file_name_length_and_position in &file_name_length_and_position_vec {
+            sum_of_file_name_lengths += file_name_length_and_position.0
+        }
+
+        let x = sum_of_file_name_lengths / file_name_length_and_position_vec.len();
+
+        print!("{}", x);
+
+        x
     }
 
     fn get_file_name_lengths_and_positions_vec(&self) -> Vec<(usize, usize)> {
@@ -149,9 +169,6 @@ impl DirectoryContainer {
                 Err(position) => file_name_lengths_and_positions_vec.insert(position, tuple),
             }
         }
-
-        // Find a way to binary insert in reverse order
-        file_name_lengths_and_positions_vec.reverse();
 
         file_name_lengths_and_positions_vec
     }
