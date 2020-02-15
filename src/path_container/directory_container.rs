@@ -11,7 +11,7 @@ use crate::utils::string::{add_padding_to_center_string, make_repeated_char_stri
 enum TruncationOptions {
     None,
     Constant,
-    Level{level: usize},
+    Level { level: usize },
     Statistical,                       // Performs calculations and then uses Level
     FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
 }
@@ -61,8 +61,9 @@ impl DirectoryContainer {
         };
 
         directory_container.sort_directory_items(true);
-        directory_container
-            .apply_truncation_settings_to_directory_container(TruncationOptions::None);
+        directory_container.apply_truncation_settings_to_directory_container(
+            TruncationOptions::Level { level: 5 },
+        );
 
         directory_container
     }
@@ -89,26 +90,26 @@ impl DirectoryContainer {
         self.name_truncation_settings_option = match truncation_options {
             TruncationOptions::None => None,
             TruncationOptions::Constant => None, // Implement
-            TruncationOptions::Level{level} => Some(NameTruncationSettings {
-                name_length_after_truncation: self.get_truncation_value_by_level(level).expect("Oops"),
-                should_include_appended_text_in_length: false,
+            TruncationOptions::Level { level } => Some(NameTruncationSettings {
+                name_length_after_truncation: self.get_truncation_value_by_level(level),
+                should_include_appended_text_in_length: true,
             }),
             TruncationOptions::Statistical => None, // Implement
             TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
         }
     }
 
-    fn get_truncation_value_by_level(&self, mut level: usize) -> Option<usize> {
+    fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
         let file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
-        let last_element_position = file_name_length_and_position_vec.len() - 1;
+        let vec_length = file_name_length_and_position_vec.len();
 
         level += 1;
 
-        if level < last_element_position {
-            return Some(file_name_length_and_position_vec[last_element_position - level].0);
+        if level < vec_length {
+            return file_name_length_and_position_vec[level].0;
         }
 
-        None
+        file_name_length_and_position_vec[vec_length - 1].0
     }
 
     fn get_file_name_lengths_and_positions_vec(&self) -> Vec<(usize, usize)> {
@@ -125,6 +126,9 @@ impl DirectoryContainer {
                 Err(position) => file_name_lengths_and_positions_vec.insert(position, tuple),
             }
         }
+
+        // Find a way to binary insert in reverse order
+        file_name_lengths_and_positions_vec.reverse();
 
         file_name_lengths_and_positions_vec
     }

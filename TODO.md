@@ -50,6 +50,7 @@
   stats that file name truncation will used
 - Be able to sort files by name (sort by file name) or by type and then name
   (sort by name with type indicator)
+- Binary insert into file_name_lengths_and_positions_vec in reverse order
 
 ## Clean up
 - refactor long functions
