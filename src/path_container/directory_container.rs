@@ -148,11 +148,7 @@ impl DirectoryContainer {
             sum_of_file_name_lengths += file_name_length_and_position.0
         }
 
-        let x = sum_of_file_name_lengths / file_name_length_and_position_vec.len();
-
-        print!("{}", x);
-
-        x
+        sum_of_file_name_lengths / file_name_length_and_position_vec.len()
     }
 
     fn get_file_name_lengths_and_positions_vec(&self) -> Vec<(usize, usize)> {
