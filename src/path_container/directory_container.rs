@@ -108,14 +108,14 @@ impl DirectoryContainer {
                 should_include_appended_text_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: constant,
-                should_include_appended_text_in_length: should_include_appended_text_in_length,
+                should_include_appended_text_in_length,
             }),
             TruncationOptions::Level {
                 level,
                 should_include_appended_text_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncation_value_by_level(level),
-                should_include_appended_text_in_length: should_include_appended_text_in_length,
+                should_include_appended_text_in_length,
             }),
             TruncationOptions::Statistical => None, // Implement
             TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
