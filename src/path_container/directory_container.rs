@@ -31,8 +31,8 @@ pub struct DirectoryContainer {
     directory_name: String,
     minimum_width: usize,
     name_truncation_settings_option: Option<NameTruncationSettings>,
-    horizontal_boarder_symbol: char,
-    vertical_boarder_symbol: char,
+    horizontal_border_symbol: char,
+    vertical_border_symbol: char,
     name_content_divider_symbol: char,
 }
 
@@ -64,8 +64,8 @@ impl DirectoryContainer {
             path_to_directory: path,
             directory_item_vec,
             name_truncation_settings_option: None,
-            horizontal_boarder_symbol: '-',
-            vertical_boarder_symbol: '|',
+            horizontal_border_symbol: '-',
+            vertical_border_symbol: '|',
             name_content_divider_symbol: '=',
         };
 
@@ -196,27 +196,27 @@ impl DirectoryContainer {
                 0 => print!(
                     " {} ",
                     make_repeated_char_string(
-                        self.horizontal_boarder_symbol,
+                        self.horizontal_border_symbol,
                         self.minimum_width + 2
                     )
                 ),
                 1 => print!(
                     "{}{}{}",
-                    self.vertical_boarder_symbol,
+                    self.vertical_border_symbol,
                     add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
-                    self.vertical_boarder_symbol,
+                    self.vertical_border_symbol,
                 ),
                 2 => print!(
                     "{}{}{}",
-                    self.vertical_boarder_symbol,
+                    self.vertical_border_symbol,
                     make_repeated_char_string(
                         self.name_content_divider_symbol,
                         self.minimum_width + 2
                     ),
-                    self.vertical_boarder_symbol,
+                    self.vertical_border_symbol,
                 ),
                 _ => {
-                    print!("{} ", self.vertical_boarder_symbol);
+                    print!("{} ", self.vertical_border_symbol);
 
                     let directory_item = &self.directory_item_vec[row_number - 3];
                     directory_item
@@ -229,14 +229,14 @@ impl DirectoryContainer {
                     print!(
                         "{} {}",
                         make_repeated_char_string(' ', difference),
-                        self.vertical_boarder_symbol
+                        self.vertical_border_symbol
                     );
                 }
             }
         } else {
             print!(
                 " {} ",
-                make_repeated_char_string(self.horizontal_boarder_symbol, self.minimum_width + 2)
+                make_repeated_char_string(self.horizontal_border_symbol, self.minimum_width + 2)
             );
         }
     }
