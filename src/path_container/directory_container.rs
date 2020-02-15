@@ -17,14 +17,14 @@ enum TruncationOptions {
 }
 
 pub struct DirectoryContainer {
-    pub directory_name: String,
-    pub minimum_width: usize,
     pub path_to_directory: PathBuf,
     pub directory_item_vec: Vec<DirectoryItem>,
-    pub name_truncation_settings_option: Option<NameTruncationSettings>,
-    pub horizontal_boarder_symbol: char,
-    pub vertical_boarder_symbol: char,
-    pub name_content_divider_symbol: char,
+    directory_name: String,
+    minimum_width: usize,
+    name_truncation_settings_option: Option<NameTruncationSettings>,
+    horizontal_boarder_symbol: char,
+    vertical_boarder_symbol: char,
+    name_content_divider_symbol: char,
 }
 
 impl DirectoryContainer {
@@ -77,7 +77,7 @@ impl DirectoryContainer {
         });
     }
 
-    fn apply_truncation_settings_to_directory_container(
+    pub fn apply_truncation_settings_to_directory_container(
         &mut self,
         truncation_options: TruncationOptions,
     ) {
