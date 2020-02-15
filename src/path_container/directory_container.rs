@@ -8,16 +8,12 @@ pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSetti
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 #[allow(dead_code)]
-enum LowLevelTruncationOptions {
+enum TruncationOptions {
     None,
     Constant,
     Level,
-}
-
-#[allow(dead_code)]
-enum AutomaticTruncationOptions {
-    Statistical,                       // Uses ByFileNameLength
-    FitAllDirectoryContainersInOneRow, // Uses Constant
+    Statistical,                       // Performs calculations and then uses Level
+    FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
 }
 
 pub struct DirectoryContainer {
@@ -66,14 +62,14 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(true);
         directory_container
-            .apply_truncation_settings_to_directory_container(LowLevelTruncationOptions::None);
+            .apply_truncation_settings_to_directory_container(TruncationOptions::None);
 
         directory_container
     }
 
     fn apply_truncation_settings_to_directory_container(
         &mut self,
-        low_level_truncation_options: LowLevelTruncationOptions,
+        low_level_truncation_options: TruncationOptions,
     ) {
         self.set_truncation_settings(low_level_truncation_options);
         self.set_minimum_width();
@@ -89,14 +85,16 @@ impl DirectoryContainer {
         });
     }
 
-    fn set_truncation_settings(&mut self, low_level_truncation_options: LowLevelTruncationOptions) {
-        self.name_truncation_settings_option = match low_level_truncation_options {
-            LowLevelTruncationOptions::None => None,
-            LowLevelTruncationOptions::Constant => None,
-            LowLevelTruncationOptions::Level => Some(NameTruncationSettings {
+    fn set_truncation_settings(&mut self, truncation_options: TruncationOptions) {
+        self.name_truncation_settings_option = match truncation_options {
+            TruncationOptions::None => None,
+            TruncationOptions::Constant => None, // Implement
+            TruncationOptions::Level => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncation_value_by_level(0).expect("Oops"),
                 should_include_appended_text_in_length: false,
             }),
+            TruncationOptions::Statistical => None, // Implement
+            TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
         }
     }
 
