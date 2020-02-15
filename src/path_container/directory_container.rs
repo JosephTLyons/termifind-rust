@@ -10,8 +10,14 @@ use crate::utils::string::{add_padding_to_center_string, make_repeated_char_stri
 #[allow(dead_code)]
 enum TruncationOptions {
     None,
-    Constant,
-    Level { level: usize },
+    Constant {
+        constant: usize,
+        should_include_appended_text_in_length: bool,
+    },
+    Level {
+        level: usize,
+        should_include_appended_text_in_length: bool,
+    },
     Statistical,                       // Performs calculations and then uses Level
     FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
 }
@@ -62,7 +68,11 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(true);
         directory_container.apply_truncation_settings_to_directory_container(
-            TruncationOptions::Level { level: 5 },
+            // TruncationOptions::Level { level: 0 },
+            TruncationOptions::Constant {
+                constant: 10,
+                should_include_appended_text_in_length: false,
+            },
         );
 
         directory_container
@@ -87,12 +97,23 @@ impl DirectoryContainer {
     }
 
     fn set_truncation_settings(&mut self, truncation_options: TruncationOptions) {
+        let should_include_appended_text_length = true;
+
         self.name_truncation_settings_option = match truncation_options {
             TruncationOptions::None => None,
-            TruncationOptions::Constant => None, // Implement
-            TruncationOptions::Level { level } => Some(NameTruncationSettings {
+            TruncationOptions::Constant {
+                constant,
+                should_include_appended_text_in_length,
+            } => Some(NameTruncationSettings {
+                name_length_after_truncation: constant,
+                should_include_appended_text_in_length: should_include_appended_text_in_length,
+            }),
+            TruncationOptions::Level {
+                level,
+                should_include_appended_text_in_length,
+            } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncation_value_by_level(level),
-                should_include_appended_text_in_length: true,
+                should_include_appended_text_in_length: should_include_appended_text_length,
             }),
             TruncationOptions::Statistical => None, // Implement
             TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
