@@ -126,7 +126,10 @@ impl DirectoryContainer {
     }
 
     fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
-        let mut file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
+        let mut file_name_length_and_position_vec = self.get_file_name_lengths_vec();
+
+        file_name_length_and_position_vec.sort();
+        file_name_length_and_position_vec.dedup();
         file_name_length_and_position_vec.reverse();
 
         let vec_length = file_name_length_and_position_vec.len();
@@ -134,36 +137,30 @@ impl DirectoryContainer {
         level += 1;
 
         if level < vec_length {
-            return file_name_length_and_position_vec[level].0;
+            return file_name_length_and_position_vec[level];
         }
 
-        file_name_length_and_position_vec[vec_length - 1].0
+        file_name_length_and_position_vec[vec_length - 1]
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
-        let file_name_length_and_position_vec = self.get_file_name_lengths_and_positions_vec();
+        let file_name_length_and_position_vec = self.get_file_name_lengths_vec();
         let mut sum_of_file_name_lengths: usize = 0;
 
         for file_name_length_and_position in &file_name_length_and_position_vec {
-            sum_of_file_name_lengths += file_name_length_and_position.0
+            sum_of_file_name_lengths += file_name_length_and_position
         }
 
         sum_of_file_name_lengths / file_name_length_and_position_vec.len()
     }
 
-    fn get_file_name_lengths_and_positions_vec(&self) -> Vec<(usize, usize)> {
-        let mut file_name_lengths_and_positions_vec: Vec<(usize, usize)> = Vec::new();
+    fn get_file_name_lengths_vec(&self) -> Vec<usize> {
+        let mut file_name_lengths_and_positions_vec: Vec<usize> = Vec::new();
 
-        for (index, directory_item) in self.directory_item_vec.iter().enumerate() {
-            let tuple = (
+        for directory_item in &self.directory_item_vec {
+            file_name_lengths_and_positions_vec.push(
                 directory_item.get_file_name_length(false, &self.name_truncation_settings_option),
-                index,
             );
-
-            match file_name_lengths_and_positions_vec.binary_search(&tuple) {
-                Ok(_) => {}
-                Err(position) => file_name_lengths_and_positions_vec.insert(position, tuple),
-            }
         }
 
         file_name_lengths_and_positions_vec
