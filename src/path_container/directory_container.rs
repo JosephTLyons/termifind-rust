@@ -69,7 +69,7 @@ impl DirectoryContainer {
             name_content_divider_symbol: '=',
         };
 
-        directory_container.sort_directory_items(true);
+        directory_container.sort_directory_items(false);
         directory_container.apply_truncation_settings_to_directory_container(
                 should_include_appended_text_in_length: false,
             TruncationOptions::AverageFileNameLength {
