@@ -126,7 +126,7 @@ impl DirectoryContainer {
     }
 
     fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
-        let mut file_name_length_and_position_vec = self.get_file_name_lengths_vec();
+        let mut file_name_length_and_position_vec = self.get_file_name_lengths_vec(false);
 
         file_name_length_and_position_vec.sort();
         file_name_length_and_position_vec.dedup();
@@ -144,7 +144,7 @@ impl DirectoryContainer {
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
-        let file_name_length_and_position_vec = self.get_file_name_lengths_vec();
+        let file_name_length_and_position_vec = self.get_file_name_lengths_vec(false);
         let mut sum_of_file_name_lengths: usize = 0;
 
         for file_name_length_and_position in &file_name_length_and_position_vec {
@@ -154,27 +154,12 @@ impl DirectoryContainer {
         sum_of_file_name_lengths / file_name_length_and_position_vec.len()
     }
 
-    fn get_file_name_lengths_vec(&self) -> Vec<usize> {
-        let mut file_name_lengths_and_positions_vec: Vec<usize> = Vec::new();
-
-        for directory_item in &self.directory_item_vec {
-            file_name_lengths_and_positions_vec.push(
-                directory_item.get_file_name_length(false, &self.name_truncation_settings_option),
-            );
-        }
-
-        file_name_lengths_and_positions_vec
-    }
-
     fn set_minimum_width(&mut self) {
         let mut length_of_longest_file_name: usize = 0;
 
-        for directory_item in &self.directory_item_vec {
-            let length_of_file_name: usize =
-                directory_item.get_file_name_length(true, &self.name_truncation_settings_option);
-
-            if length_of_file_name > length_of_longest_file_name {
-                length_of_longest_file_name = length_of_file_name
+        for file_name_length in self.get_file_name_lengths_vec(true) {
+            if file_name_length > length_of_longest_file_name {
+                length_of_longest_file_name = file_name_length
             }
         }
 
@@ -185,6 +170,19 @@ impl DirectoryContainer {
         } else {
             length_of_longest_file_name
         };
+    }
+
+    fn get_file_name_lengths_vec(&self, include_type_indicator_in_length: bool) -> Vec<usize> {
+        let mut file_name_lengths_and_positions_vec: Vec<usize> = Vec::new();
+
+        for directory_item in &self.directory_item_vec {
+            file_name_lengths_and_positions_vec.push(directory_item.get_file_name_length(
+                include_type_indicator_in_length,
+                &self.name_truncation_settings_option,
+            ));
+        }
+
+        file_name_lengths_and_positions_vec
     }
 
     pub fn print_directory_container_by_row(&self, row_number: usize) {
