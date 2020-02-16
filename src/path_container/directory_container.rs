@@ -18,7 +18,7 @@ enum TruncationOptions {
         level: usize,
         should_include_appended_text_in_length: bool,
     },
-    AverageFileName {
+    AverageFileNameLength {
         should_include_appended_text_in_length: bool,
     },
     RemoveOutliers,                    // Performs calculations and then uses Level
@@ -71,8 +71,8 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(true);
         directory_container.apply_truncation_settings_to_directory_container(
-            TruncationOptions::AverageFileName {
                 should_include_appended_text_in_length: false,
+            TruncationOptions::AverageFileNameLength {
             },
         );
 
@@ -114,7 +114,7 @@ impl DirectoryContainer {
                 name_length_after_truncation: self.get_truncation_value_by_level(level),
                 should_include_appended_text_in_length,
             }),
-            TruncationOptions::AverageFileName {
+            TruncationOptions::AverageFileNameLength {
                 should_include_appended_text_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
