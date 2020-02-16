@@ -166,16 +166,15 @@ impl DirectoryContainer {
     }
 
     fn get_file_name_lengths_vec(&self, include_type_indicator_in_length: bool) -> Vec<usize> {
-        let mut file_name_lengths_vec: Vec<usize> = Vec::new();
-
-        for directory_item in &self.directory_item_vec {
-            file_name_lengths_vec.push(directory_item.get_file_name_length(
-                include_type_indicator_in_length,
-                &self.name_truncation_settings_option,
-            ));
-        }
-
-        file_name_lengths_vec
+        self.directory_item_vec
+            .iter()
+            .map(|directory_item| {
+                directory_item.get_file_name_length(
+                    include_type_indicator_in_length,
+                    &self.name_truncation_settings_option,
+                )
+            })
+            .collect()
     }
 
     pub fn print_directory_container_by_row(&self, row_number: usize) {
