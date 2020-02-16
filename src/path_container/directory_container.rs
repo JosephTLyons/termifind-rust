@@ -151,14 +151,11 @@ impl DirectoryContainer {
     }
 
     fn set_minimum_width(&mut self) {
-        let mut length_of_longest_file_name: usize = 0;
-
-        for file_name_length in self.get_file_name_lengths_vec(true) {
-            if file_name_length > length_of_longest_file_name {
-                length_of_longest_file_name = file_name_length
-            }
-        }
-
+        let length_of_longest_file_name: usize =
+            match Iterator::max(self.get_file_name_lengths_vec(true).iter()) {
+                Some(x) => *x,
+                None => 0,
+            };
         let length_of_current_directory_name = self.directory_name.chars().count();
 
         self.minimum_width = if length_of_current_directory_name > length_of_longest_file_name {
