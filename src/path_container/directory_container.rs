@@ -144,14 +144,10 @@ impl DirectoryContainer {
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
-        let file_name_length_and_position_vec = self.get_file_name_lengths_vec(false);
-        let mut sum_of_file_name_lengths: usize = 0;
+        let file_name_lengths_vec = self.get_file_name_lengths_vec(false);
+        let sum_of_file_name_lengths: usize = Iterator::sum(file_name_lengths_vec.iter());
 
-        for file_name_length_and_position in &file_name_length_and_position_vec {
-            sum_of_file_name_lengths += file_name_length_and_position
-        }
-
-        sum_of_file_name_lengths / file_name_length_and_position_vec.len()
+        sum_of_file_name_lengths / file_name_lengths_vec.len()
     }
 
     fn set_minimum_width(&mut self) {
