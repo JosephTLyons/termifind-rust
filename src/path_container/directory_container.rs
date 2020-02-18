@@ -21,8 +21,8 @@ enum TruncationOptions {
     AverageFileNameLength {
         should_include_appended_text_in_length: bool,
     },
-    RemoveOutliers,                    // Performs calculations and then uses Level
-    FitAllDirectoryContainersInOneRow, // Performs calculations and then uses Constant
+    Outliers,      // Performs calculations and then uses Level
+    HorizontalFit, // Performs calculations and then uses Constant
 }
 
 pub struct DirectoryContainer {
@@ -118,8 +118,8 @@ impl DirectoryContainer {
                 name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
                 should_include_appended_text_in_length,
             }),
-            TruncationOptions::RemoveOutliers => None, // Implement
-            TruncationOptions::FitAllDirectoryContainersInOneRow => None, // Implement
+            TruncationOptions::Outliers => None, // Implement
+            TruncationOptions::HorizontalFit => None, // Implement
         }
     }
 
