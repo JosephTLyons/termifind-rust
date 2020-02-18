@@ -82,7 +82,7 @@ fn get_q1_q2_q3_values(data_vec: &[usize]) -> (f32, f32, f32) {
 #[test]
 fn get_q1_q2_q3_values_even_set_even_halves() {
     assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8].to_vec()),
+        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8]),
         (2.5, 4.5, 6.5)
     );
 }
@@ -90,7 +90,7 @@ fn get_q1_q2_q3_values_even_set_even_halves() {
 #[test]
 fn get_q1_q2_q3_values_even_set_odd_halves() {
     assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6].to_vec()),
+        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6]),
         (2.0, 3.5, 5.0)
     );
 }
@@ -98,7 +98,7 @@ fn get_q1_q2_q3_values_even_set_odd_halves() {
 #[test]
 fn get_q1_q2_q3_values_odd_set_odd_halves() {
     assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9].to_vec()),
+        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9]),
         (2.5, 5.0, 7.5)
     );
 }
@@ -116,20 +116,20 @@ fn get_median(data_vec: &[usize]) -> f32 {
 
 #[test]
 fn get_median_even_set() {
-    assert!((get_median(&[1, 2, 3, 4, 5, 6].to_vec()) - 3.5).abs() < 0.0001);
+    assert!((get_median(&[1, 2, 3, 4, 5, 6]) - 3.5).abs() < 0.0001);
 }
 
 #[test]
 fn get_median_odd_set() {
-    assert!((get_median(&[1, 2, 3, 4, 5].to_vec()) - 3.0).abs() < 0.0001);
+    assert!((get_median(&[1, 2, 3, 4, 5]) - 3.0).abs() < 0.0001);
 }
 
 #[test]
 fn get_median_random_numbers_even_set() {
-    assert!((get_median(&[1, 11, 34, 66, 209, 353, 1067, 10_453].to_vec()) - 137.5).abs() < 0.0001);
+    assert!((get_median(&[1, 11, 34, 66, 209, 353, 1067, 10_453]) - 137.5).abs() < 0.0001);
 }
 
 #[test]
 fn get_median_random_numbers_odd_set() {
-    assert!((get_median(&[1, 23, 24, 45, 200, 343, 1001].to_vec()) - 45.0).abs() < 0.0001);
+    assert!((get_median(&[1, 23, 24, 45, 200, 343, 1001]) - 45.0).abs() < 0.0001);
 }
