@@ -67,12 +67,13 @@ fn get_q1_q2_q3_values(data_vec: &[usize]) -> (f32, f32, f32) {
     let data_vec_length = data_vec.len();
     let mut halfway = data_vec_length / 2;
 
+    let q1_value = get_median(&data_vec[0..halfway]);
+    let q2_value = get_median(&data_vec);
+
     if data_vec_length % 2 != 0 {
         halfway += 1;
     }
 
-    let q1_value = get_median(&data_vec[0..halfway]);
-    let q2_value = get_median(&data_vec);
     let q3_value = get_median(&data_vec[halfway..data_vec_length]);
 
     (q1_value, q2_value, q3_value)
