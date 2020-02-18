@@ -10,8 +10,9 @@ pub fn get_outliers(mut data_vec: Vec<usize>, is_sorted: bool) -> Option<(Vec<us
     let (q1_value, _, q3_value) = get_q1_q2_q3_values(&data_vec);
     let interquartile_range = q3_value - q1_value;
 
-    let lower_range = q1_value - (1.5 * interquartile_range);
-    let upper_range = q3_value + (1.5 * interquartile_range);
+    let intermediate_value = 1.5 * interquartile_range;
+    let lower_range = q1_value - intermediate_value;
+    let upper_range = q3_value + intermediate_value;
 
     let mut lower_outliers: Vec<usize> = Vec::new();
     let mut upper_outliers: Vec<usize> = Vec::new();
