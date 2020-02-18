@@ -5,6 +5,7 @@ use std::vec::Vec;
 mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSettings};
 
+use crate::utils::maths::get_outliers;
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 #[allow(dead_code)]
@@ -21,7 +22,9 @@ enum TruncationOptions {
     AverageFileNameLength {
         should_include_appended_text_in_length: bool,
     },
-    Outliers,      // Performs calculations and then uses Level
+    Outliers {
+        should_include_appended_text_in_length: bool, // Does this option even make sense here?
+    },
     HorizontalFit, // Performs calculations and then uses Constant
 }
 
@@ -71,7 +74,9 @@ impl DirectoryContainer {
 
         directory_container.sort_directory_items(false);
         directory_container.apply_truncation_settings_to_directory_container(
-            TruncationOptions::None,
+            TruncationOptions::Outliers {
+                should_include_appended_text_in_length: true,
+            },
         );
 
         directory_container
@@ -108,31 +113,48 @@ impl DirectoryContainer {
             TruncationOptions::Level {
                 level,
                 should_include_appended_text_in_length,
-            } => Some(NameTruncationSettings {
-                name_length_after_truncation: self.get_truncation_value_by_level(level),
-                should_include_appended_text_in_length,
-            }),
+            } => match level {
+                0 => None,
+                _ => Some(NameTruncationSettings {
+                    name_length_after_truncation: self.get_truncation_value_by_level(level, true),
+                    should_include_appended_text_in_length,
+                }),
+            },
             TruncationOptions::AverageFileNameLength {
                 should_include_appended_text_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
                 should_include_appended_text_in_length,
             }),
-            TruncationOptions::Outliers => None, // Implement
+            TruncationOptions::Outliers {
+                should_include_appended_text_in_length,
+            } => {
+                let outliers_vec_option =
+                    get_outliers(self.get_file_name_lengths_vec(false), true);
+
+                match outliers_vec_option {
+                    None => None,
+                    Some(outliers_vec) => Some(NameTruncationSettings {
+                        name_length_after_truncation: self
+                            .get_truncation_value_by_level(outliers_vec.1.len(), false),
+                        should_include_appended_text_in_length,
+                    }),
+                }
+            }
             TruncationOptions::HorizontalFit => None, // Implement
         }
     }
 
-    fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
+    fn get_truncation_value_by_level(&self, level: usize, should_remove_duplicates: bool) -> usize {
         let mut file_name_length_vec = self.get_file_name_lengths_vec(false);
 
-        file_name_length_vec.sort();
-        file_name_length_vec.dedup();
+        if should_remove_duplicates {
+            file_name_length_vec.dedup();
+        }
+
         file_name_length_vec.reverse();
 
         let vec_length = file_name_length_vec.len();
-
-        level += 1;
 
         if level < vec_length {
             return file_name_length_vec[level];
@@ -164,7 +186,8 @@ impl DirectoryContainer {
     }
 
     fn get_file_name_lengths_vec(&self, include_type_indicator_in_length: bool) -> Vec<usize> {
-        self.directory_item_vec
+        let mut file_name_vec: Vec<usize> = self
+            .directory_item_vec
             .iter()
             .map(|directory_item| {
                 directory_item.get_file_name_length(
@@ -172,7 +195,11 @@ impl DirectoryContainer {
                     &self.name_truncation_settings_option,
                 )
             })
-            .collect()
+            .collect();
+
+        file_name_vec.sort();
+
+        file_name_vec
     }
 
     pub fn print_directory_container_by_row(&self, row_number: usize) {
