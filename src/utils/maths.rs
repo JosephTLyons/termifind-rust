@@ -89,10 +89,7 @@ fn get_q1_q2_q3_values_even_set_even_halves() {
 
 #[test]
 fn get_q1_q2_q3_values_even_set_odd_halves() {
-    assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6]),
-        (2.0, 3.5, 5.0)
-    );
+    assert_eq!(get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6]), (2.0, 3.5, 5.0));
 }
 
 #[test]
