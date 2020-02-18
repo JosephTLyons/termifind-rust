@@ -28,7 +28,7 @@ developed with flexibility in mind.
 2. Truncation of file names by a constant value
 3. Truncation of file names by level (link to another area to explain this)
 4. Truncation of file names by average file name length
-5. Truncation of file names by outlier (truncate outliers) (not implemented)
+5. Truncation of file names by outlier (truncate outliers)
 6.  Truncation of file names in order to fit as many directory containers
   horizontally (not implemented)
 
