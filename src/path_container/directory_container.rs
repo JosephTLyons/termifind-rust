@@ -129,8 +129,7 @@ impl DirectoryContainer {
             TruncationOptions::Outliers {
                 should_include_appended_text_in_length,
             } => {
-                let outliers_vec_option =
-                    get_outliers(self.get_file_name_lengths_vec(false), true);
+                let outliers_vec_option = get_outliers(self.get_file_name_lengths_vec(false), true);
 
                 match outliers_vec_option {
                     None => None,
