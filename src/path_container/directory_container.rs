@@ -124,21 +124,21 @@ impl DirectoryContainer {
     }
 
     fn get_truncation_value_by_level(&self, mut level: usize) -> usize {
-        let mut file_name_length_and_position_vec = self.get_file_name_lengths_vec(false);
+        let mut file_name_length_vec = self.get_file_name_lengths_vec(false);
 
-        file_name_length_and_position_vec.sort();
-        file_name_length_and_position_vec.dedup();
-        file_name_length_and_position_vec.reverse();
+        file_name_length_vec.sort();
+        file_name_length_vec.dedup();
+        file_name_length_vec.reverse();
 
-        let vec_length = file_name_length_and_position_vec.len();
+        let vec_length = file_name_length_vec.len();
 
         level += 1;
 
         if level < vec_length {
-            return file_name_length_and_position_vec[level];
+            return file_name_length_vec[level];
         }
 
-        file_name_length_and_position_vec[vec_length - 1]
+        file_name_length_vec[vec_length - 1]
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
