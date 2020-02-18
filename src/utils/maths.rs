@@ -34,7 +34,7 @@ fn get_outliers_empty_data_set() {
 }
 
 #[test]
-fn get_outliers_no_outliers() {
+fn get_outliers_none() {
     assert_eq!(
         get_outliers([1, 2, 4, 10].to_vec(), true),
         Some(([].to_vec(), [].to_vec()))
@@ -42,7 +42,7 @@ fn get_outliers_no_outliers() {
 }
 
 #[test]
-fn get_outliers_outliers_1() {
+fn get_outliers_some_1() {
     assert_eq!(
         get_outliers(
             [10, 12, 11, 15, 11, 14, 13, 17, 12, 22, 14, 11].to_vec(),
@@ -53,7 +53,7 @@ fn get_outliers_outliers_1() {
 }
 
 #[test]
-fn get_outliers_outliers_2() {
+fn get_outliers_some_2() {
     assert_eq!(
         get_outliers(
             [0, 3, 3, 3, 11, 12, 13, 15, 19, 20, 29, 40, 79].to_vec(),
