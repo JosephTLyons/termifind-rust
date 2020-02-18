@@ -64,18 +64,13 @@ fn get_outliers_outliers_2() {
 
 fn get_q1_q2_q3_values(data_vec: &[usize]) -> (f32, f32, f32) {
     let data_vec_length = data_vec.len();
-    let q1_value;
+    let halfway = data_vec_length / 2;
+    let q1_value = get_median(&data_vec[0..halfway].to_vec());
     let q2_value = get_median(&data_vec);
-    let q3_value;
-
-    if data_vec_length % 2 == 0 {
-        let halfway = data_vec_length / 2;
-        q1_value = get_median(&data_vec[0..halfway].to_vec());
-        q3_value = get_median(&data_vec[halfway..data_vec_length].to_vec());
+    let q3_value = if data_vec_length % 2 == 0 {
+        get_median(&data_vec[halfway..data_vec_length].to_vec())
     } else {
-        let halfway = data_vec_length / 2;
-        q1_value = get_median(&data_vec[0..halfway].to_vec());
-        q3_value = get_median(&data_vec[halfway + 1..data_vec_length].to_vec());
+        get_median(&data_vec[halfway + 1..data_vec_length].to_vec())
     };
 
     (q1_value, q2_value, q3_value)
