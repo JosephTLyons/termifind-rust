@@ -13,6 +13,7 @@ pub struct PathContainer {
     directory_container_vec_deque: VecDeque<DirectoryContainer>,
     horizontal_spacing_between_directory_containers: usize,
     vertical_spacing_between_directory_containers: usize,
+    terminal_dimensions: (usize, usize),
 }
 
 impl PathContainer {
@@ -41,6 +42,7 @@ impl PathContainer {
             directory_container_vec_deque,
             horizontal_spacing_between_directory_containers: 1,
             vertical_spacing_between_directory_containers: 1,
+            terminal_dimensions: term_size::dimensions().expect("Oops"),
         }
     }
 
@@ -86,7 +88,6 @@ impl PathContainer {
         mut start_and_end_iteration_tuple: (usize, usize),
     ) -> (usize, usize) {
         let mut previous_directory_containers_space_requirement = 0;
-        let terminal_dimensions = term_size::dimensions().expect("Oops");
 
         start_and_end_iteration_tuple.0 = start_and_end_iteration_tuple.1;
 
@@ -107,7 +108,7 @@ impl PathContainer {
                     + current_directory_container_space_requirement;
 
             let has_space_for_all_directory_containers =
-                all_directory_containers_space_requirement < terminal_dimensions.0;
+                all_directory_containers_space_requirement < self.terminal_dimensions.0;
 
             let not_at_end_of_directory_container_deque =
                 start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len();
