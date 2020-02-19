@@ -100,6 +100,7 @@ impl DirectoryContainer {
         self.set_minimum_width();
     }
 
+    // REFACTOR
     fn set_truncation_settings(&mut self, truncation_options: TruncationOptions) {
         self.name_truncation_settings_option = match truncation_options {
             TruncationOptions::None => None,

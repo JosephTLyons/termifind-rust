@@ -81,7 +81,7 @@ impl PathContainer {
         }
     }
 
-    // CLEAN THIS UP!!!
+    // REFACTOR
     fn update_start_and_end_iteration_tuple(
         &self,
         mut start_and_end_iteration_tuple: (usize, usize),
