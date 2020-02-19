@@ -1,6 +1,5 @@
 use std::collections::VecDeque;
 use std::path::{Path, PathBuf};
-extern crate term_size;
 
 mod directory_container;
 use directory_container::DirectoryContainer;
