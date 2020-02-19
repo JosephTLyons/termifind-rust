@@ -202,53 +202,43 @@ impl DirectoryContainer {
     }
 
     pub fn print_directory_container_by_row(&self, row_number: usize) {
-        if row_number < self.get_total_height_of_directory_container() - 1 {
-            match row_number {
-                0 => print!(
-                    " {} ",
-                    make_repeated_char_string(
-                        self.horizontal_border_symbol,
-                        self.minimum_width + 2
-                    )
-                ),
-                1 => print!(
-                    "{}{}{}",
-                    self.vertical_border_symbol,
-                    add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
-                    self.vertical_border_symbol,
-                ),
-                2 => print!(
-                    "{}{}{}",
-                    self.vertical_border_symbol,
-                    make_repeated_char_string(
-                        self.name_content_divider_symbol,
-                        self.minimum_width + 2
-                    ),
-                    self.vertical_border_symbol,
-                ),
-                _ => {
-                    print!("{} ", self.vertical_border_symbol);
-
-                    let directory_item = &self.directory_item_vec[row_number - 3];
-                    directory_item
-                        .print_styled_file_name(true, &self.name_truncation_settings_option);
-
-                    let length_of_current_file_name: usize = directory_item
-                        .get_file_name_length(true, &self.name_truncation_settings_option);
-                    let difference: usize = self.minimum_width - length_of_current_file_name;
-
-                    print!(
-                        "{} {}",
-                        make_repeated_char_string(' ', difference),
-                        self.vertical_border_symbol
-                    );
-                }
-            }
-        } else {
-            print!(
+        match row_number {
+            0 => print!(
                 " {} ",
                 make_repeated_char_string(self.horizontal_border_symbol, self.minimum_width + 2)
-            );
+            ),
+            1 => print!(
+                "{}{}{}",
+                self.vertical_border_symbol,
+                add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
+                self.vertical_border_symbol,
+            ),
+            2 => print!(
+                "{}{}{}",
+                self.vertical_border_symbol,
+                make_repeated_char_string(self.name_content_divider_symbol, self.minimum_width + 2),
+                self.vertical_border_symbol,
+            ),
+            x if (3..self.get_total_height_of_directory_container() - 1).contains(&x) => {
+                print!("{} ", self.vertical_border_symbol);
+
+                let directory_item = &self.directory_item_vec[row_number - 3];
+                directory_item.print_styled_file_name(true, &self.name_truncation_settings_option);
+
+                let length_of_current_file_name: usize = directory_item
+                    .get_file_name_length(true, &self.name_truncation_settings_option);
+                let difference: usize = self.minimum_width - length_of_current_file_name;
+
+                print!(
+                    "{} {}",
+                    make_repeated_char_string(' ', difference),
+                    self.vertical_border_symbol
+                );
+            }
+            _ => print!(
+                " {} ",
+                make_repeated_char_string(self.horizontal_border_symbol, self.minimum_width + 2)
+            ),
         }
     }
 
