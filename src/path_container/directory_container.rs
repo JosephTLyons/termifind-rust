@@ -36,7 +36,7 @@ pub struct DirectoryContainer {
     name_truncation_settings_option: Option<NameTruncationSettings>,
     horizontal_border_symbol: char,
     vertical_border_symbol: char,
-    name_content_divider_symbol: char,
+    content_divider_symbol: char,
 }
 
 impl DirectoryContainer {
@@ -69,7 +69,7 @@ impl DirectoryContainer {
             name_truncation_settings_option: None,
             horizontal_border_symbol: '-',
             vertical_border_symbol: '|',
-            name_content_divider_symbol: '=',
+            content_divider_symbol: '=',
         };
 
         directory_container.sort_directory_items(false);
@@ -235,7 +235,7 @@ impl DirectoryContainer {
         print!(
             "{}{}{}",
             self.vertical_border_symbol,
-            make_repeated_char_string(self.name_content_divider_symbol, self.minimum_width + 2),
+            make_repeated_char_string(self.content_divider_symbol, self.minimum_width + 2),
             self.vertical_border_symbol,
         );
     }
