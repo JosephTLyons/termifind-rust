@@ -92,13 +92,11 @@ impl PathContainer {
         start_and_end_iteration_tuple.0 = start_and_end_iteration_tuple.1;
 
         loop {
-            let spacing_width = 2 * self.horizontal_spacing_between_directory_containers;
-
             let current_directory_container_space_requirement =
                 if start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len() {
                     self.directory_container_vec_deque[start_and_end_iteration_tuple.1]
                         .get_total_width_of_directory_container()
-                        + spacing_width
+                        + self.horizontal_spacing_between_directory_containers
                 } else {
                     0
                 };
