@@ -93,7 +93,7 @@ fn get_quartile_values_even_set_odd_halves() {
 }
 
 #[test]
-fn get_quartile_values_odd_set_odd_halves() {
+fn get_quartile_values_odd_set_even_halves() {
     assert_eq!(
         get_quartile_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9]),
         (2.5, 5.0, 7.5)
