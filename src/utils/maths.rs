@@ -109,6 +109,17 @@ fn get_quartile_values_odd_set_even_halves() {
     );
 }
 
+// [1   2   3   4   5]   6   [7   8   9   10   11]
+//          |            |            |
+//          Q1           Q2           Q3
+#[test]
+fn get_quartile_values_odd_set_odd_halves() {
+    assert_eq!(
+        get_quartile_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+        (3.0, 6.0, 9.0)
+    );
+}
+
 fn get_median(data_vec: &[usize]) -> f32 {
     let data_vec_length = data_vec.len();
     let half_way = data_vec_length / 2;
