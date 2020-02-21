@@ -174,20 +174,23 @@ impl PathContainer {
 
     fn print_one_row_of_each_directory_container(
         &self,
-        x: usize,
+        directory_container_number: usize,
         row_number: usize,
         should_print_spacing_between_directory_containers: bool,
     ) {
         if row_number
-            < self.directory_container_vec_deque[x].get_total_height_of_directory_container()
+            < self.directory_container_vec_deque[directory_container_number]
+                .get_total_height_of_directory_container()
         {
-            self.directory_container_vec_deque[x].print_directory_container_by_row(row_number);
+            self.directory_container_vec_deque[directory_container_number]
+                .print_directory_container_by_row(row_number);
         } else {
             print!(
                 "{}",
                 make_repeated_char_string(
                     self.spacing_between_directory_container_rows_char,
-                    self.directory_container_vec_deque[x].get_total_width_of_directory_container()
+                    self.directory_container_vec_deque[directory_container_number]
+                        .get_total_width_of_directory_container()
                 )
             );
         }
