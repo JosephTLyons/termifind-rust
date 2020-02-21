@@ -7,7 +7,7 @@ pub fn get_outliers(mut data_vec: Vec<usize>, is_sorted: bool) -> Option<(Vec<us
         data_vec.sort();
     }
 
-    let (q1_value, _, q3_value) = get_q1_q2_q3_values(&data_vec);
+    let (q1_value, _, q3_value) = get_quartile_values(&data_vec);
     let interquartile_range = q3_value - q1_value;
 
     let intermediate_value = 1.5 * interquartile_range;
@@ -63,7 +63,7 @@ fn get_outliers_some_2() {
     );
 }
 
-fn get_q1_q2_q3_values(data_vec: &[usize]) -> (f32, f32, f32) {
+fn get_quartile_values(data_vec: &[usize]) -> (f32, f32, f32) {
     let data_vec_length = data_vec.len();
     let mut halfway = data_vec_length / 2;
 
@@ -80,22 +80,22 @@ fn get_q1_q2_q3_values(data_vec: &[usize]) -> (f32, f32, f32) {
 }
 
 #[test]
-fn get_q1_q2_q3_values_even_set_even_halves() {
+fn get_quartile_values_even_set_even_halves() {
     assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8]),
+        get_quartile_values(&[1, 2, 3, 4, 5, 6, 7, 8]),
         (2.5, 4.5, 6.5)
     );
 }
 
 #[test]
-fn get_q1_q2_q3_values_even_set_odd_halves() {
-    assert_eq!(get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6]), (2.0, 3.5, 5.0));
+fn get_quartile_values_even_set_odd_halves() {
+    assert_eq!(get_quartile_values(&[1, 2, 3, 4, 5, 6]), (2.0, 3.5, 5.0));
 }
 
 #[test]
-fn get_q1_q2_q3_values_odd_set_odd_halves() {
+fn get_quartile_values_odd_set_odd_halves() {
     assert_eq!(
-        get_q1_q2_q3_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9]),
+        get_quartile_values(&[1, 2, 3, 4, 5, 6, 7, 8, 9]),
         (2.5, 5.0, 7.5)
     );
 }
