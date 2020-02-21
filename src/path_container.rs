@@ -145,8 +145,7 @@ impl PathContainer {
         let height_of_tallest_container =
             self.get_height_of_tallest_directory_container_in_range(start_and_end_iteration_tuple);
 
-        for i in 0..height_of_tallest_container + self.spacing_between_directory_container_rows
-        {
+        for i in 0..height_of_tallest_container + self.spacing_between_directory_container_rows {
             for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
                 self.print_one_row_of_each_directory_container(
                     j,
