@@ -105,13 +105,24 @@ impl PathContainer {
                 previous_directory_containers_space_requirement
                     + current_directory_container_space_requirement;
 
-            let has_space_for_all_directory_containers =
-                all_directory_containers_space_requirement < self.terminal_dimensions.0;
+            // This boolean represents there being enough room to print the current directory
+            // containers and assumes there will be possibly more that can fit in this same row.
+            let a = all_directory_containers_space_requirement < self.terminal_dimensions.0;
 
-            let not_at_end_of_directory_container_deque =
-                start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len();
+            // This boolean represents there being enough room to print the current directory
+            // containers and assumes this row is complete and no more directory containers will
+            // fit.
+            let b = all_directory_containers_space_requirement
+                - self.horizontal_spacing_between_directory_containers
+                < self.terminal_dimensions.0;
 
-            if has_space_for_all_directory_containers && not_at_end_of_directory_container_deque {
+            let at_end_of_directory_container_deque =
+                start_and_end_iteration_tuple.1 >= self.directory_container_vec_deque.len();
+
+            let can_fit_current_directory_containers_in_row =
+                (a || b) && !at_end_of_directory_container_deque;
+
+            if can_fit_current_directory_containers_in_row {
                 previous_directory_containers_space_requirement += self
                     .directory_container_vec_deque[start_and_end_iteration_tuple.1]
                     .get_total_width_of_directory_container()
@@ -133,7 +144,11 @@ impl PathContainer {
         for i in 0..height_of_tallest_container + self.vertical_spacing_between_directory_containers
         {
             for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
-                self.print_one_row_of_each_directory_container(j, i);
+                self.print_one_row_of_each_directory_container(
+                    j,
+                    i,
+                    j < start_and_end_iteration_tuple.1 - 1,
+                );
             }
 
             println!();
@@ -158,7 +173,12 @@ impl PathContainer {
         height_of_tallest_container
     }
 
-    fn print_one_row_of_each_directory_container(&self, x: usize, row_number: usize) {
+    fn print_one_row_of_each_directory_container(
+        &self,
+        x: usize,
+        row_number: usize,
+        should_print_vertical_spacing_between_directory_containers: bool,
+    ) {
         if row_number
             < self.directory_container_vec_deque[x].get_total_height_of_directory_container()
         {
@@ -172,9 +192,14 @@ impl PathContainer {
                 )
             );
         }
-        print!(
-            "{}",
-            make_repeated_char_string(' ', self.horizontal_spacing_between_directory_containers)
-        );
+        if should_print_vertical_spacing_between_directory_containers {
+            print!(
+                "{}",
+                make_repeated_char_string(
+                    ' ',
+                    self.horizontal_spacing_between_directory_containers
+                )
+            );
+        }
     }
 }
