@@ -11,6 +11,7 @@ use crate::utils::string::make_repeated_char_string;
 pub struct PathContainer {
     current_path: PathBuf,
     directory_container_vec_deque: VecDeque<DirectoryContainer>,
+    number_of_directory_containers_to_print_option: Option<usize>,
     spacing_between_directory_containers: usize,
     spacing_between_directory_containers_char: char,
     spacing_between_directory_container_rows: usize,
@@ -42,6 +43,7 @@ impl PathContainer {
         PathContainer {
             current_path: path,
             directory_container_vec_deque,
+            number_of_directory_containers_to_print_option: None,
             spacing_between_directory_containers: 1,
             spacing_between_directory_containers_char: ' ',
             spacing_between_directory_container_rows: 1,
@@ -75,8 +77,22 @@ impl PathContainer {
     }
 
     pub fn print_path(&self) {
+        let starting_index = match self.number_of_directory_containers_to_print_option {
+            Some(number_of_directory_containers_to_print) => {
+                if number_of_directory_containers_to_print
+                    <= self.directory_container_vec_deque.len()
+                {
+                    self.directory_container_vec_deque.len()
+                        - number_of_directory_containers_to_print
+                } else {
+                    0
+                }
+            }
+            None => 0,
+        };
+
         let mut start_and_end_iteration_tuple: (usize, usize) =
-            self.update_start_and_end_iteration_tuple((0, 0));
+            self.update_start_and_end_iteration_tuple((starting_index, starting_index));
 
         while start_and_end_iteration_tuple.0 < self.directory_container_vec_deque.len() {
             self.print_one_line_of_directory_containers(start_and_end_iteration_tuple);
