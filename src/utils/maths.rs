@@ -79,6 +79,9 @@ fn get_quartile_values(data_vec: &[usize]) -> (f32, f32, f32) {
     (q1_value, q2_value, q3_value)
 }
 
+// [1   2   3   4]   [5   6   7   8]
+//        |        |        |
+//        Q1       Q2       Q3
 #[test]
 fn get_quartile_values_even_set_even_halves() {
     assert_eq!(
@@ -87,11 +90,17 @@ fn get_quartile_values_even_set_even_halves() {
     );
 }
 
+// [1   2   3]   [4   5   6]
+//      |      |      |
+//      Q1     Q2     Q3
 #[test]
 fn get_quartile_values_even_set_odd_halves() {
     assert_eq!(get_quartile_values(&[1, 2, 3, 4, 5, 6]), (2.0, 3.5, 5.0));
 }
 
+// [1   2   3   4]   5   [6   7   8   9]
+//        |          |          |
+//        Q1         Q2         Q3
 #[test]
 fn get_quartile_values_odd_set_even_halves() {
     assert_eq!(
