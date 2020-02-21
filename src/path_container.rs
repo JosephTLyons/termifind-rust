@@ -11,8 +11,10 @@ use crate::utils::string::make_repeated_char_string;
 pub struct PathContainer {
     current_path: PathBuf,
     directory_container_vec_deque: VecDeque<DirectoryContainer>,
-    horizontal_spacing_between_directory_containers: usize,
-    vertical_spacing_between_directory_containers: usize,
+    spacing_between_directory_containers: usize,
+    spacing_between_directory_containers_char: char,
+    spacing_between_directory_container_rows: usize,
+    spacing_between_directory_container_rows_char: char,
     terminal_dimensions: (usize, usize),
 }
 
@@ -40,8 +42,10 @@ impl PathContainer {
         PathContainer {
             current_path: path,
             directory_container_vec_deque,
-            horizontal_spacing_between_directory_containers: 1,
-            vertical_spacing_between_directory_containers: 1,
+            spacing_between_directory_containers: 1,
+            spacing_between_directory_containers_char: ' ',
+            spacing_between_directory_container_rows: 1,
+            spacing_between_directory_container_rows_char: ' ',
             terminal_dimensions: term_size::dimensions().expect("Oops"),
         }
     }
@@ -96,7 +100,7 @@ impl PathContainer {
                 if start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len() {
                     self.directory_container_vec_deque[start_and_end_iteration_tuple.1]
                         .get_total_width_of_directory_container()
-                        + self.horizontal_spacing_between_directory_containers
+                        + self.spacing_between_directory_containers
                 } else {
                     0
                 };
@@ -113,7 +117,7 @@ impl PathContainer {
             // containers and assumes this row is complete and no more directory containers will
             // fit.
             let b = all_directory_containers_space_requirement
-                - self.horizontal_spacing_between_directory_containers
+                - self.spacing_between_directory_containers
                 < self.terminal_dimensions.0;
 
             let at_end_of_directory_container_deque =
@@ -126,7 +130,7 @@ impl PathContainer {
                 previous_directory_containers_space_requirement += self
                     .directory_container_vec_deque[start_and_end_iteration_tuple.1]
                     .get_total_width_of_directory_container()
-                    + self.horizontal_spacing_between_directory_containers;
+                    + self.spacing_between_directory_containers;
                 start_and_end_iteration_tuple.1 += 1;
             } else {
                 break start_and_end_iteration_tuple;
@@ -141,7 +145,7 @@ impl PathContainer {
         let height_of_tallest_container =
             self.get_height_of_tallest_directory_container_in_range(start_and_end_iteration_tuple);
 
-        for i in 0..height_of_tallest_container + self.vertical_spacing_between_directory_containers
+        for i in 0..height_of_tallest_container + self.spacing_between_directory_container_rows
         {
             for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
                 self.print_one_row_of_each_directory_container(
@@ -177,7 +181,7 @@ impl PathContainer {
         &self,
         x: usize,
         row_number: usize,
-        should_print_vertical_spacing_between_directory_containers: bool,
+        should_print_spacing_between_directory_containers: bool,
     ) {
         if row_number
             < self.directory_container_vec_deque[x].get_total_height_of_directory_container()
@@ -187,17 +191,17 @@ impl PathContainer {
             print!(
                 "{}",
                 make_repeated_char_string(
-                    ' ',
+                    self.spacing_between_directory_container_rows_char,
                     self.directory_container_vec_deque[x].get_total_width_of_directory_container()
                 )
             );
         }
-        if should_print_vertical_spacing_between_directory_containers {
+        if should_print_spacing_between_directory_containers {
             print!(
                 "{}",
                 make_repeated_char_string(
-                    ' ',
-                    self.horizontal_spacing_between_directory_containers
+                    self.spacing_between_directory_containers_char,
+                    self.spacing_between_directory_containers
                 )
             );
         }
