@@ -34,7 +34,7 @@ pub struct DirectoryItemSettings {
 
 #[derive(serde_derive::Deserialize, Clone)]
 pub struct DirectoryContainerSettings {
-    pub sort_directory_item_by_type: bool,
+    pub sort_directory_item_by_item_type_indicator: bool,
     pub truncation_options: TruncationOptions,
     pub horizontal_border_symbol: char,
     pub vertical_border_symbol: char,
@@ -68,7 +68,7 @@ fn get_default_settings() -> Settings {
             spacing_between_directory_container_rows: 1,
             spacing_between_directory_container_rows_char: ' ',
             directory_container_settings: DirectoryContainerSettings {
-                sort_directory_item_by_type: false,
+                sort_directory_item_by_item_type_indicator: false,
                 truncation_options: {
                     TruncationOptions::Outliers {
                         should_include_appended_text_in_length: true,

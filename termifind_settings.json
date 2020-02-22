@@ -6,7 +6,7 @@
         "spacing_between_directory_container_rows": 1,
         "spacing_between_directory_container_rows_char": " ",
         "directory_container_settings": {
-            "sort_directory_item_by_type": false,
+            "sort_directory_item_by_item_type_indicator": false,
             "truncation_options": {"Outliers": {"should_include_appended_text_in_length": true}},
             "horizontal_border_symbol": "-",
             "vertical_border_symbol": "|",

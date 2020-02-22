@@ -59,7 +59,7 @@ impl DirectoryContainer {
         directory_container.sort_directory_items(
             directory_container
                 .directory_container_settings
-                .sort_directory_item_by_type,
+                .sort_directory_item_by_item_type_indicator,
         );
         directory_container.apply_truncation_settings_to_directory_container(
             directory_container
