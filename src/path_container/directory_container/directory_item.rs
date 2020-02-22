@@ -19,7 +19,7 @@ pub enum ItemType {
 #[derive(Clone)]
 pub struct NameTruncationSettings {
     pub name_length_after_truncation: usize,
-    pub should_include_appended_text_in_length: bool,
+    pub should_include_truncated_text_indicator_in_length: bool,
 }
 
 pub struct DirectoryItem {
@@ -130,7 +130,7 @@ impl DirectoryItem {
                 name_truncation_settings.name_length_after_truncation,
                 Some((
                     String::from("..."),
-                    name_truncation_settings.should_include_appended_text_in_length,
+                    name_truncation_settings.should_include_truncated_text_indicator_in_length,
                 )),
             );
         }

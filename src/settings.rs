@@ -9,17 +9,17 @@ pub enum TruncationOptions {
     None,
     Constant {
         constant: usize,
-        should_include_appended_text_in_length: bool,
+        should_include_truncated_text_indicator_in_length: bool,
     },
     Level {
         level: usize,
-        should_include_appended_text_in_length: bool,
+        should_include_truncated_text_indicator_in_length: bool,
     },
     AverageFileNameLength {
-        should_include_appended_text_in_length: bool,
+        should_include_truncated_text_indicator_in_length: bool,
     },
     Outliers {
-        should_include_appended_text_in_length: bool, // Does this option even make sense here?
+        should_include_truncated_text_indicator_in_length: bool, // Does this option even make sense here?
     },
     HorizontalFit, // Performs calculations and then uses Constant
 }
@@ -71,7 +71,7 @@ fn get_default_settings() -> Settings {
                 sort_directory_item_by_item_type_indicator: false,
                 truncation_options: {
                     TruncationOptions::Outliers {
-                        should_include_appended_text_in_length: true,
+                        should_include_truncated_text_indicator_in_length: true,
                     }
                 },
                 horizontal_border_symbol: '-',
@@ -95,7 +95,7 @@ pub fn get_settings_from_file() -> Settings {
 
     if let Ok(json_settings_string) = read_to_string(path_to_json_settings_file) {
         if let Ok(settings) = from_str(&json_settings_string) {
-            return settings
+            return settings;
         }
     }
 

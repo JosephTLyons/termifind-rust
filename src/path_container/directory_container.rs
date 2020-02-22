@@ -95,29 +95,29 @@ impl DirectoryContainer {
             TruncationOptions::None => None,
             TruncationOptions::Constant {
                 constant,
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: constant,
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             }),
             TruncationOptions::Level {
                 level,
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             } => match level {
                 0 => None,
                 _ => Some(NameTruncationSettings {
                     name_length_after_truncation: self.get_truncation_value_by_level(level, true),
-                    should_include_appended_text_in_length,
+                    should_include_truncated_text_indicator_in_length,
                 }),
             },
             TruncationOptions::AverageFileNameLength {
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             }),
             TruncationOptions::Outliers {
-                should_include_appended_text_in_length,
+                should_include_truncated_text_indicator_in_length,
             } => {
                 let outliers_vec_option = get_outliers(self.get_file_name_lengths_vec(false), true);
 
@@ -126,7 +126,7 @@ impl DirectoryContainer {
                     Some(outliers_vec) => Some(NameTruncationSettings {
                         name_length_after_truncation: self
                             .get_truncation_value_by_level(outliers_vec.1.len(), false),
-                        should_include_appended_text_in_length,
+                        should_include_truncated_text_indicator_in_length,
                     }),
                 }
             }

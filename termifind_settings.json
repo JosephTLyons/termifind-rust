@@ -7,7 +7,10 @@
         "spacing_between_directory_container_rows_char": " ",
         "directory_container_settings": {
             "sort_directory_item_by_item_type_indicator": false,
-            "truncation_options": {"Outliers": {"should_include_appended_text_in_length": true}},
+            "truncation_options": {"Outliers": {
+                "should_include_truncated_text_indicator_in_length": true
+                }
+            },
             "horizontal_border_symbol": "-",
             "vertical_border_symbol": "|",
             "content_divider_symbol": "=",
