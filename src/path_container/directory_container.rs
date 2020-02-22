@@ -5,28 +5,9 @@ use std::vec::Vec;
 mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSettings};
 
+use crate::settings::{DirectoryContainerSettings, TruncationOptions};
 use crate::utils::maths::get_outliers;
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
-
-#[allow(dead_code)]
-enum TruncationOptions {
-    None,
-    Constant {
-        constant: usize,
-        should_include_appended_text_in_length: bool,
-    },
-    Level {
-        level: usize,
-        should_include_appended_text_in_length: bool,
-    },
-    AverageFileNameLength {
-        should_include_appended_text_in_length: bool,
-    },
-    Outliers {
-        should_include_appended_text_in_length: bool, // Does this option even make sense here?
-    },
-    HorizontalFit, // Performs calculations and then uses Constant
-}
 
 pub struct DirectoryContainer {
     pub path_to_directory: PathBuf,
@@ -34,13 +15,15 @@ pub struct DirectoryContainer {
     directory_name: String,
     minimum_width: usize,
     name_truncation_settings_option: Option<NameTruncationSettings>,
-    horizontal_border_symbol: char,
-    vertical_border_symbol: char,
-    content_divider_symbol: char,
+    directory_container_settings: DirectoryContainerSettings,
 }
 
 impl DirectoryContainer {
-    pub fn new(path: PathBuf, selected_directory_option: &Option<PathBuf>) -> Self {
+    pub fn new(
+        path: PathBuf,
+        selected_directory_option: &Option<PathBuf>,
+        directory_container_settings: DirectoryContainerSettings,
+    ) -> Self {
         let mut directory_item_vec: Vec<DirectoryItem> = Vec::new();
         let read_directory_iterator: ReadDir = read_dir(&path).expect("Oops");
 
@@ -67,16 +50,19 @@ impl DirectoryContainer {
             path_to_directory: path,
             directory_item_vec,
             name_truncation_settings_option: None,
-            horizontal_border_symbol: '-',
-            vertical_border_symbol: '|',
-            content_divider_symbol: '=',
+            directory_container_settings,
         };
 
-        directory_container.sort_directory_items(false);
+        directory_container.sort_directory_items(
+            directory_container
+                .directory_container_settings
+                .sort_directory_item_by_type,
+        );
         directory_container.apply_truncation_settings_to_directory_container(
-            TruncationOptions::Outliers {
-                should_include_appended_text_in_length: true,
-            },
+            directory_container
+                .directory_container_settings
+                .truncation_options
+                .clone(),
         );
 
         directory_container
@@ -219,30 +205,39 @@ impl DirectoryContainer {
     fn print_horizontal_directory_container_line_row(&self) {
         print!(
             " {} ",
-            make_repeated_char_string(self.horizontal_border_symbol, self.minimum_width + 2)
+            make_repeated_char_string(
+                self.directory_container_settings.horizontal_border_symbol,
+                self.minimum_width + 2
+            )
         );
     }
 
     fn print_directory_container_file_name_row(&self) {
         print!(
             "{}{}{}",
-            self.vertical_border_symbol,
+            self.directory_container_settings.vertical_border_symbol,
             add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
-            self.vertical_border_symbol,
+            self.directory_container_settings.vertical_border_symbol,
         );
     }
 
     fn print_content_divider_row(&self) {
         print!(
             "{}{}{}",
-            self.vertical_border_symbol,
-            make_repeated_char_string(self.content_divider_symbol, self.minimum_width + 2),
-            self.vertical_border_symbol,
+            self.directory_container_settings.vertical_border_symbol,
+            make_repeated_char_string(
+                self.directory_container_settings.content_divider_symbol,
+                self.minimum_width + 2
+            ),
+            self.directory_container_settings.vertical_border_symbol,
         );
     }
 
     fn print_directory_item_row(&self, row_number: usize) {
-        print!("{} ", self.vertical_border_symbol);
+        print!(
+            "{} ",
+            self.directory_container_settings.vertical_border_symbol
+        );
 
         let directory_item = &self.directory_item_vec[row_number];
         directory_item.print_styled_file_name(true, &self.name_truncation_settings_option);
@@ -254,7 +249,7 @@ impl DirectoryContainer {
         print!(
             "{} {}",
             make_repeated_char_string(' ', difference),
-            self.vertical_border_symbol
+            self.directory_container_settings.vertical_border_symbol
         );
     }
 

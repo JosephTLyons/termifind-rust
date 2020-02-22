@@ -5,22 +5,19 @@ mod directory_container;
 use directory_container::DirectoryContainer;
 use directory_container::ItemState;
 
+use crate::settings::PathContainerSettings;
 use crate::utils::string::make_repeated_char_string;
 
 #[allow(dead_code)]
 pub struct PathContainer {
     current_path: PathBuf,
     directory_container_vec_deque: VecDeque<DirectoryContainer>,
-    number_of_directory_containers_to_print_option: Option<usize>,
-    spacing_between_directory_containers: usize,
-    spacing_between_directory_containers_char: char,
-    spacing_between_directory_container_rows: usize,
-    spacing_between_directory_container_rows_char: char,
     terminal_dimensions: (usize, usize),
+    path_container_settings: PathContainerSettings,
 }
 
 impl PathContainer {
-    pub fn new(path: PathBuf) -> Self {
+    pub fn new(path: PathBuf, path_container_settings: PathContainerSettings) -> Self {
         let mut directory_container_vec_deque: VecDeque<DirectoryContainer> = VecDeque::new();
         let mut parent_path: &Path = &path;
 
@@ -28,6 +25,7 @@ impl PathContainer {
             directory_container_vec_deque.push_front(DirectoryContainer::new(
                 parent_path.to_path_buf(),
                 &PathContainer::get_selected_directory_option(&directory_container_vec_deque),
+                path_container_settings.directory_container_settings.clone(),
             ));
 
             match parent_path.parent() {
@@ -43,12 +41,8 @@ impl PathContainer {
         PathContainer {
             current_path: path,
             directory_container_vec_deque,
-            number_of_directory_containers_to_print_option: None,
-            spacing_between_directory_containers: 1,
-            spacing_between_directory_containers_char: ' ',
-            spacing_between_directory_container_rows: 1,
-            spacing_between_directory_container_rows_char: ' ',
             terminal_dimensions: term_size::dimensions().expect("Oops"),
+            path_container_settings: path_container_settings,
         }
     }
 
@@ -77,7 +71,10 @@ impl PathContainer {
     }
 
     pub fn print_path(&self) {
-        let starting_index = match self.number_of_directory_containers_to_print_option {
+        let starting_index = match self
+            .path_container_settings
+            .number_of_directory_containers_to_print_option
+        {
             Some(number_of_directory_containers_to_print) => {
                 if number_of_directory_containers_to_print
                     <= self.directory_container_vec_deque.len()
@@ -116,7 +113,9 @@ impl PathContainer {
                 if start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len() {
                     self.directory_container_vec_deque[start_and_end_iteration_tuple.1]
                         .get_total_width_of_directory_container()
-                        + self.spacing_between_directory_containers
+                        + self
+                            .path_container_settings
+                            .spacing_between_directory_containers
                 } else {
                     0
                 };
@@ -126,10 +125,13 @@ impl PathContainer {
                     + current_directory_container_space_requirement;
 
             if all_directory_containers_space_requirement
-                >= self.spacing_between_directory_containers
+                >= self
+                    .path_container_settings
+                    .spacing_between_directory_containers
             {
-                all_directory_containers_space_requirement -=
-                    self.spacing_between_directory_containers
+                all_directory_containers_space_requirement -= self
+                    .path_container_settings
+                    .spacing_between_directory_containers
             }
 
             let can_fit_current_directory_containers_in_row =
@@ -142,7 +144,9 @@ impl PathContainer {
                 previous_directory_containers_space_requirement += self
                     .directory_container_vec_deque[start_and_end_iteration_tuple.1]
                     .get_total_width_of_directory_container()
-                    + self.spacing_between_directory_containers;
+                    + self
+                        .path_container_settings
+                        .spacing_between_directory_containers;
                 start_and_end_iteration_tuple.1 += 1;
             } else {
                 break start_and_end_iteration_tuple;
@@ -157,7 +161,11 @@ impl PathContainer {
         let height_of_tallest_container =
             self.get_height_of_tallest_directory_container_in_range(start_and_end_iteration_tuple);
 
-        for i in 0..height_of_tallest_container + self.spacing_between_directory_container_rows {
+        for i in 0..height_of_tallest_container
+            + self
+                .path_container_settings
+                .spacing_between_directory_container_rows
+        {
             for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
                 self.print_one_row_of_each_directory_container(
                     j,
@@ -204,7 +212,8 @@ impl PathContainer {
             print!(
                 "{}",
                 make_repeated_char_string(
-                    self.spacing_between_directory_container_rows_char,
+                    self.path_container_settings
+                        .spacing_between_directory_container_rows_char,
                     self.directory_container_vec_deque[directory_container_number]
                         .get_total_width_of_directory_container()
                 )
@@ -214,8 +223,10 @@ impl PathContainer {
             print!(
                 "{}",
                 make_repeated_char_string(
-                    self.spacing_between_directory_containers_char,
-                    self.spacing_between_directory_containers
+                    self.path_container_settings
+                        .spacing_between_directory_containers_char,
+                    self.path_container_settings
+                        .spacing_between_directory_containers
                 )
             );
         }
