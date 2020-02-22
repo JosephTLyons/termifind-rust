@@ -90,10 +90,10 @@ pub fn print_colored_text(text: String, color: Color) {
 pub fn truncate_text(
     text: String,
     mut text_length_after_truncation: usize,
-    text_to_append_option: Option<(String, bool)>,
+    truncated_text_indicator_option: Option<(String, bool)>,
 ) -> String {
     if text.chars().count() > text_length_after_truncation {
-        return match text_to_append_option {
+        return match truncated_text_indicator_option {
             Some(text_to_append) => {
                 if text_to_append.1 {
                     if text_length_after_truncation <= text_to_append.0.chars().count() {
