@@ -4,6 +4,7 @@ use std::path::PathBuf;
 mod path_container;
 use path_container::PathContainer;
 
+mod settings;
 mod utils;
 
 #[allow(dead_code)]
@@ -15,8 +16,10 @@ enum ArrowKeys {
 }
 
 fn event_loop() {
+    let settings = settings::get_settings_from_file();
     let current_directory: PathBuf = env::current_dir().expect("Oops");
-    let path_containter: PathContainer = PathContainer::new(current_directory);
+    let path_containter: PathContainer =
+        PathContainer::new(current_directory, settings.path_container_settings);
     path_containter.print_path();
 
     // loop {
