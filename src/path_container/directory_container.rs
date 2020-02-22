@@ -99,6 +99,10 @@ impl DirectoryContainer {
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: constant,
                 should_include_truncated_text_indicator_in_length,
+                truncated_text_indicator: self
+                    .directory_container_settings
+                    .truncated_text_indicator
+                    .clone(),
             }),
             TruncationOptions::Level {
                 level,
@@ -108,6 +112,10 @@ impl DirectoryContainer {
                 _ => Some(NameTruncationSettings {
                     name_length_after_truncation: self.get_truncation_value_by_level(level, true),
                     should_include_truncated_text_indicator_in_length,
+                    truncated_text_indicator: self
+                        .directory_container_settings
+                        .truncated_text_indicator
+                        .clone(),
                 }),
             },
             TruncationOptions::AverageFileNameLength {
@@ -115,6 +123,10 @@ impl DirectoryContainer {
             } => Some(NameTruncationSettings {
                 name_length_after_truncation: self.get_truncated_value_by_file_name_average(),
                 should_include_truncated_text_indicator_in_length,
+                truncated_text_indicator: self
+                    .directory_container_settings
+                    .truncated_text_indicator
+                    .clone(),
             }),
             TruncationOptions::Outliers {
                 should_include_truncated_text_indicator_in_length,
@@ -127,6 +139,10 @@ impl DirectoryContainer {
                         name_length_after_truncation: self
                             .get_truncation_value_by_level(outliers_vec.1.len(), false),
                         should_include_truncated_text_indicator_in_length,
+                        truncated_text_indicator: self
+                            .directory_container_settings
+                            .truncated_text_indicator
+                            .clone(),
                     }),
                 }
             }

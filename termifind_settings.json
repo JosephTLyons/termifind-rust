@@ -11,6 +11,7 @@
                 "should_include_truncated_text_indicator_in_length": true
                 }
             },
+            "truncated_text_indicator": "...",
             "horizontal_border_symbol": "-",
             "vertical_border_symbol": "|",
             "content_divider_symbol": "=",

@@ -36,6 +36,7 @@ pub struct DirectoryItemSettings {
 pub struct DirectoryContainerSettings {
     pub sort_directory_item_by_item_type_indicator: bool,
     pub truncation_options: TruncationOptions,
+    pub truncated_text_indicator: String,
     pub horizontal_border_symbol: char,
     pub vertical_border_symbol: char,
     pub content_divider_symbol: char,
@@ -74,6 +75,7 @@ fn get_default_settings() -> Settings {
                         should_include_truncated_text_indicator_in_length: true,
                     }
                 },
+                truncated_text_indicator: String::from("..."),
                 horizontal_border_symbol: '-',
                 vertical_border_symbol: '|',
                 content_divider_symbol: '=',

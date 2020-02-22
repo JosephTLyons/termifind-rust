@@ -20,6 +20,7 @@ pub enum ItemType {
 pub struct NameTruncationSettings {
     pub name_length_after_truncation: usize,
     pub should_include_truncated_text_indicator_in_length: bool,
+    pub truncated_text_indicator: String,
 }
 
 pub struct DirectoryItem {
@@ -129,7 +130,7 @@ impl DirectoryItem {
                 file_name,
                 name_truncation_settings.name_length_after_truncation,
                 Some((
-                    String::from("..."),
+                    name_truncation_settings.truncated_text_indicator.clone(),
                     name_truncation_settings.should_include_truncated_text_indicator_in_length,
                 )),
             );
