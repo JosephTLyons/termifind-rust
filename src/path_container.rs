@@ -42,7 +42,7 @@ impl PathContainer {
             current_path: path,
             directory_container_vec_deque,
             terminal_dimensions: term_size::dimensions().expect("Oops"),
-            path_container_settings: path_container_settings,
+            path_container_settings,
         }
     }
 
