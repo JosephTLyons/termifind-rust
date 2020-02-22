@@ -50,29 +50,25 @@ pub struct Settings {
 }
 
 fn get_default_settings() -> Settings {
-    let directory_container_settings = DirectoryContainerSettings {
-        sort_directory_item_by_type: false,
-        truncation_options: {
-            TruncationOptions::Outliers {
-                should_include_appended_text_in_length: true,
-            }
-        },
-        horizontal_border_symbol: '-',
-        vertical_border_symbol: '|',
-        content_divider_symbol: '=',
-    };
-
-    let path_container_settings = PathContainerSettings {
-        number_of_directory_containers_to_print_option: None,
-        spacing_between_directory_containers: 2,
-        spacing_between_directory_containers_char: ' ',
-        spacing_between_directory_container_rows: 1,
-        spacing_between_directory_container_rows_char: ' ',
-        directory_container_settings,
-    };
-
     Settings {
-        path_container_settings,
+        path_container_settings: PathContainerSettings {
+            number_of_directory_containers_to_print_option: None,
+            spacing_between_directory_containers: 2,
+            spacing_between_directory_containers_char: ' ',
+            spacing_between_directory_container_rows: 1,
+            spacing_between_directory_container_rows_char: ' ',
+            directory_container_settings: DirectoryContainerSettings {
+                sort_directory_item_by_type: false,
+                truncation_options: {
+                    TruncationOptions::Outliers {
+                        should_include_appended_text_in_length: true,
+                    }
+                },
+                horizontal_border_symbol: '-',
+                vertical_border_symbol: '|',
+                content_divider_symbol: '=',
+            },
+        },
     }
 }
 
