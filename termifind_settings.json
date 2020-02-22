@@ -10,7 +10,13 @@
             "truncation_options": {"Outliers": {"should_include_appended_text_in_length": true}},
             "horizontal_border_symbol": "-",
             "vertical_border_symbol": "|",
-            "content_divider_symbol": "="
+            "content_divider_symbol": "=",
+            "directory_item_settings": {
+                "item_type_indicator_directory": "(D)",
+                "item_type_indicator_file": "(F)",
+                "item_type_indicator_symlink": "(S)",
+                "item_type_indicator_unknown": "(U)"
+            }
         }
     }
 }

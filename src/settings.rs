@@ -25,12 +25,22 @@ pub enum TruncationOptions {
 }
 
 #[derive(serde_derive::Deserialize, Clone)]
+pub struct DirectoryItemSettings {
+    pub item_type_indicator_directory: String,
+    pub item_type_indicator_file: String,
+    pub item_type_indicator_symlink: String,
+    pub item_type_indicator_unknown: String,
+}
+
+#[derive(serde_derive::Deserialize, Clone)]
 pub struct DirectoryContainerSettings {
     pub sort_directory_item_by_type: bool,
     pub truncation_options: TruncationOptions,
     pub horizontal_border_symbol: char,
     pub vertical_border_symbol: char,
     pub content_divider_symbol: char,
+
+    pub directory_item_settings: DirectoryItemSettings,
 }
 
 #[derive(serde_derive::Deserialize)]
@@ -67,6 +77,12 @@ fn get_default_settings() -> Settings {
                 horizontal_border_symbol: '-',
                 vertical_border_symbol: '|',
                 content_divider_symbol: '=',
+                directory_item_settings: DirectoryItemSettings {
+                    item_type_indicator_directory: String::from("(D)"),
+                    item_type_indicator_file: String::from("(F)"),
+                    item_type_indicator_symlink: String::from("(S)"),
+                    item_type_indicator_unknown: String::from("(U)"),
+                },
             },
         },
     }

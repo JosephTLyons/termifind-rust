@@ -1,5 +1,6 @@
 use std::fs::DirEntry;
 
+use crate::settings::DirectoryItemSettings;
 use crate::utils::string::{print_colored_text, truncate_text, Color};
 
 pub enum ItemState {
@@ -25,16 +26,18 @@ pub struct DirectoryItem {
     pub directory_entry: DirEntry,
     pub item_state: ItemState,
     item_type: ItemType,
+    directory_item_settings: DirectoryItemSettings,
 }
 
 impl DirectoryItem {
-    pub fn new(directory_entry: DirEntry) -> Self {
+    pub fn new(directory_entry: DirEntry, directory_item_settings: DirectoryItemSettings) -> Self {
         let item_type = DirectoryItem::get_item_type(&directory_entry);
 
         DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
             item_type,
+            directory_item_settings
         }
     }
 
@@ -61,7 +64,7 @@ impl DirectoryItem {
         if include_type_indicator {
             return format!(
                 "{} {}",
-                self.get_file_type_indicator_string(),
+                self.get_item_type_indicator_string(),
                 self.get_truncated_file_name(&name_truncation_settings_option)
             );
         }
@@ -102,12 +105,12 @@ impl DirectoryItem {
         };
     }
 
-    fn get_file_type_indicator_string(&self) -> &str {
+    fn get_item_type_indicator_string(&self) -> &str {
         match self.item_type {
-            ItemType::Directory => "(D)",
-            ItemType::File => "(F)",
-            ItemType::Symlink => "(S)",
-            ItemType::Unknown => "(U)",
+            ItemType::Directory => &self.directory_item_settings.item_type_indicator_directory,
+            ItemType::File => &self.directory_item_settings.item_type_indicator_file,
+            ItemType::Symlink => &self.directory_item_settings.item_type_indicator_symlink,
+            ItemType::Unknown => &self.directory_item_settings.item_type_indicator_unknown,
         }
     }
 

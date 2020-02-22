@@ -28,7 +28,10 @@ impl DirectoryContainer {
         let read_directory_iterator: ReadDir = read_dir(&path).expect("Oops");
 
         for file in read_directory_iterator {
-            let mut directory_item: DirectoryItem = DirectoryItem::new(file.expect("Oops"));
+            let mut directory_item: DirectoryItem = DirectoryItem::new(
+                file.expect("Oops"),
+                directory_container_settings.directory_item_settings.clone(),
+            );
 
             if let Some(selected_directory) = selected_directory_option {
                 if selected_directory == &directory_item.directory_entry.path() {
