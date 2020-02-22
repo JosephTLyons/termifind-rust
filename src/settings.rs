@@ -53,7 +53,7 @@ fn get_default_settings() -> Settings {
     Settings {
         path_container_settings: PathContainerSettings {
             number_of_directory_containers_to_print_option: None,
-            spacing_between_directory_containers: 2,
+            spacing_between_directory_containers: 1,
             spacing_between_directory_containers_char: ' ',
             spacing_between_directory_container_rows: 1,
             spacing_between_directory_container_rows_char: ' ',
