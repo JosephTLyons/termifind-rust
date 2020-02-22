@@ -93,11 +93,11 @@ pub fn get_settings_from_file() -> Settings {
     let path_to_json_settings_file =
         Path::new("/Users/josephlyons/Programming/Rust/termifind/termifind_settings.json");
 
-    match read_to_string(path_to_json_settings_file) {
-        Ok(json_settings_string) => match from_str(&json_settings_string) {
-            Ok(settings) => settings,
-            Err(_) => get_default_settings(),
-        },
-        Err(_) => get_default_settings(),
+    if let Ok(json_settings_string) = read_to_string(path_to_json_settings_file) {
+        if let Ok(settings) = from_str(&json_settings_string) {
+            return settings
+        }
     }
+
+    get_default_settings()
 }
