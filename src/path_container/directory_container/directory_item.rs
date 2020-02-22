@@ -37,7 +37,7 @@ impl DirectoryItem {
             item_state: ItemState::Unselected,
             directory_entry,
             item_type,
-            directory_item_settings
+            directory_item_settings,
         }
     }
 
