@@ -92,7 +92,7 @@ impl PathContainer {
             self.update_start_and_end_iteration_tuple((starting_index, starting_index));
 
         while start_and_end_iteration_tuple.0 < self.directory_container_vec_deque.len() {
-            self.print_one_line_of_directory_containers(start_and_end_iteration_tuple);
+            self.print_one_row_of_directory_containers(start_and_end_iteration_tuple);
 
             start_and_end_iteration_tuple =
                 self.update_start_and_end_iteration_tuple(start_and_end_iteration_tuple);
@@ -154,7 +154,7 @@ impl PathContainer {
         }
     }
 
-    fn print_one_line_of_directory_containers(
+    fn print_one_row_of_directory_containers(
         &self,
         start_and_end_iteration_tuple: (usize, usize),
     ) {
@@ -168,7 +168,7 @@ impl PathContainer {
         {
             if i < height_of_tallest_container {
                 for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
-                    self.print_one_row_of_each_directory_container(
+                    self.print_single_line_of_each_directory_container(
                         j,
                         i,
                         j < start_and_end_iteration_tuple.1 - 1,
@@ -207,7 +207,7 @@ impl PathContainer {
         height_of_tallest_container
     }
 
-    fn print_one_row_of_each_directory_container(
+    fn print_single_line_of_each_directory_container(
         &self,
         directory_container_number: usize,
         row_number: usize,
