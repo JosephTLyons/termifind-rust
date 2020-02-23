@@ -154,10 +154,7 @@ impl PathContainer {
         }
     }
 
-    fn print_one_row_of_directory_containers(
-        &self,
-        start_and_end_iteration_tuple: (usize, usize),
-    ) {
+    fn print_one_row_of_directory_containers(&self, start_and_end_iteration_tuple: (usize, usize)) {
         let height_of_tallest_container =
             self.get_height_of_tallest_directory_container_in_range(start_and_end_iteration_tuple);
 
@@ -174,8 +171,11 @@ impl PathContainer {
                         j < start_and_end_iteration_tuple.1 - 1,
                     );
                 }
-            } else {
-                print!(
+
+                println!();
+            } else if start_and_end_iteration_tuple.1 < self.directory_container_vec_deque.len() - 1
+            {
+                println!(
                     "{}",
                     make_repeated_char_string(
                         self.path_container_settings
@@ -184,8 +184,6 @@ impl PathContainer {
                     )
                 );
             }
-
-            println!();
         }
     }
 
