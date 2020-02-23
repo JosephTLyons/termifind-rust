@@ -6,7 +6,7 @@ mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSettings};
 
 use crate::settings::{DirectoryContainerSettings, TruncationOptions};
-use crate::utils::maths::get_outliers;
+use crate::utils::maths::{get_average, get_outliers};
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 pub struct DirectoryContainer {
@@ -169,10 +169,7 @@ impl DirectoryContainer {
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
-        let file_name_lengths_vec = self.get_file_name_lengths_vec(false);
-        let sum_of_file_name_lengths: usize = file_name_lengths_vec.iter().sum();
-
-        sum_of_file_name_lengths / file_name_lengths_vec.len()
+        get_average(&self.get_file_name_lengths_vec(false)) as usize
     }
 
     fn set_minimum_width(&mut self) {

@@ -150,3 +150,18 @@ fn get_median_random_numbers_even_set() {
 fn get_median_random_numbers_odd_set() {
     assert!((get_median(&[1, 23, 24, 45, 200, 343, 1001]) - 45.0).abs() < 0.0001);
 }
+
+pub fn get_average(data_vec: &[usize]) -> f32 {
+    let sum_of_file_name_lengths: usize = data_vec.iter().sum();
+    sum_of_file_name_lengths as f32 / data_vec.len() as f32
+}
+
+#[test]
+fn get_average_1() {
+    assert!((get_average(&[11, 100, 21, 34]) - 41.5).abs() < 0.0001);
+}
+
+#[test]
+fn get_average_2() {
+    assert!((get_average(&[3, 0, 49, 2000]) - 513.0).abs() < 0.0001);
+}
