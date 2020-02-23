@@ -33,6 +33,12 @@ impl DirectoryContainer {
                 directory_container_settings.directory_item_settings.clone(),
             );
 
+            if !directory_container_settings.should_display_hidden_files
+                && directory_item.is_hidden_file()
+            {
+                continue;
+            }
+
             if let Some(selected_directory) = selected_directory_option {
                 if selected_directory == &directory_item.directory_entry.path() {
                     directory_item.item_state = ItemState::DirectoryInPath;

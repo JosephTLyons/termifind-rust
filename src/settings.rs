@@ -35,6 +35,7 @@ pub struct DirectoryItemSettings {
 #[derive(serde_derive::Deserialize, Clone)]
 pub struct DirectoryContainerSettings {
     pub sort_directory_item_by_item_type_indicator: bool,
+    pub should_display_hidden_files: bool,
     pub truncation_options: TruncationOptions,
     pub truncated_text_indicator: String,
     pub horizontal_border_symbol: char,
@@ -70,6 +71,7 @@ fn get_default_settings() -> Settings {
             spacing_between_directory_container_rows_char: ' ',
             directory_container_settings: DirectoryContainerSettings {
                 sort_directory_item_by_item_type_indicator: false,
+                should_display_hidden_files: false,
                 truncation_options: {
                     TruncationOptions::Outliers {
                         should_include_truncated_text_indicator_in_length: true,

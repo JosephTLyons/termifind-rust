@@ -138,4 +138,8 @@ impl DirectoryItem {
 
         file_name
     }
+
+    pub fn is_hidden_file(&self) -> bool {
+        self.get_file_name(false, &None).starts_with('.')
+    }
 }
