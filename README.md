@@ -32,7 +32,7 @@ in `settings.rs`.
 3. Truncation of file names by level (link to another area to explain this)
 4. Truncation of file names by average file name length
 5. Truncation of file names by outlier (truncate outliers)
-6.  Truncation of file names in order to fit as many directory containers
+6. Truncation of file names in order to fit as many directory containers
   horizontally (not implemented)
 
 Note that the string to denote that a file name has been truncated can be
