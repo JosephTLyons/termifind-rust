@@ -17,8 +17,11 @@ but will wrap down to a new line if needed:
 
 ![wrap example](./images/wrap_example.png)
 
-TermiFind currently doesn't have a central place for settings, but it is being
-developed with flexibility in mind.
+TermiFind has user-customizable settings that are placed in a JSON file.
+Currently, the path to the settings file has to be set via the code in
+`settings.rs`, but if the file does not exist or can't be deserialized properly,
+a default set of settings can be used; these default settings are also located
+in `settings.rs`.
 
 ## Settings:
 
