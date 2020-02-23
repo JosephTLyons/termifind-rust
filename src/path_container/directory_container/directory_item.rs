@@ -59,10 +59,10 @@ impl DirectoryItem {
 
     pub fn get_file_name(
         &self,
-        include_type_indicator: bool,
+        should_include_item_type_indicator: bool,
         name_truncation_settings_option: &Option<NameTruncationSettings>,
     ) -> String {
-        if include_type_indicator {
+        if should_include_item_type_indicator {
             return format!(
                 "{} {}",
                 self.get_item_type_indicator_string(),
@@ -75,11 +75,11 @@ impl DirectoryItem {
 
     pub fn get_file_name_length(
         &self,
-        include_type_indicator_in_length: bool,
+        should_include_item_type_indicator_in_length: bool,
         name_truncation_settings_option: &Option<NameTruncationSettings>,
     ) -> usize {
         self.get_file_name(
-            include_type_indicator_in_length,
+            should_include_item_type_indicator_in_length,
             &name_truncation_settings_option,
         )
         .chars()
@@ -88,11 +88,13 @@ impl DirectoryItem {
 
     pub fn print_styled_file_name(
         &self,
-        include_type_indicator: bool,
+        should_include_item_type_indicator: bool,
         name_truncation_settings_option: &Option<NameTruncationSettings>,
     ) {
-        let file_name =
-            self.get_file_name(include_type_indicator, &name_truncation_settings_option);
+        let file_name = self.get_file_name(
+            should_include_item_type_indicator,
+            &name_truncation_settings_option,
+        );
 
         match self.item_state {
             ItemState::DirectoryInPath => print_colored_text(file_name, Color::Blue),
