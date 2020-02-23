@@ -5,6 +5,7 @@
         "spacing_between_directory_containers_char": " ",
         "spacing_between_directory_container_rows": 1,
         "spacing_between_directory_container_rows_char": " ",
+        "filler_char": " ",
         "directory_container_settings": {
             "sort_directory_item_by_item_type_indicator": false,
             "should_display_hidden_files": false,

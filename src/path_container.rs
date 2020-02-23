@@ -166,11 +166,22 @@ impl PathContainer {
                 .path_container_settings
                 .spacing_between_directory_container_rows
         {
-            for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
-                self.print_one_row_of_each_directory_container(
-                    j,
-                    i,
-                    j < start_and_end_iteration_tuple.1 - 1,
+            if i < height_of_tallest_container {
+                for j in start_and_end_iteration_tuple.0..start_and_end_iteration_tuple.1 {
+                    self.print_one_row_of_each_directory_container(
+                        j,
+                        i,
+                        j < start_and_end_iteration_tuple.1 - 1,
+                    );
+                }
+            } else {
+                print!(
+                    "{}",
+                    make_repeated_char_string(
+                        self.path_container_settings
+                            .spacing_between_directory_container_rows_char,
+                        self.terminal_dimensions.0
+                    )
                 );
             }
 
@@ -212,8 +223,7 @@ impl PathContainer {
             print!(
                 "{}",
                 make_repeated_char_string(
-                    self.path_container_settings
-                        .spacing_between_directory_container_rows_char,
+                    self.path_container_settings.filler_char,
                     self.directory_container_vec_deque[directory_container_number]
                         .get_total_width_of_directory_container()
                 )
