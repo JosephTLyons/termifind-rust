@@ -92,10 +92,24 @@ impl PathContainer {
             self.update_start_and_end_iteration_tuple((starting_index, starting_index));
 
         while start_and_end_iteration_tuple.0 < self.directory_container_vec_deque.len() {
+            self.is_directory_container_wider_than_terminal(start_and_end_iteration_tuple.0);
+
             self.print_one_row_of_directory_containers(start_and_end_iteration_tuple);
 
             start_and_end_iteration_tuple =
                 self.update_start_and_end_iteration_tuple(start_and_end_iteration_tuple);
+        }
+    }
+
+    fn is_directory_container_wider_than_terminal(&self, iterator: usize) {
+        if self.directory_container_vec_deque[iterator].get_total_width_of_directory_container()
+            > self.terminal_dimensions.0
+        {
+            println!(
+                "The directory '{}' is wider than the terminal width and cannot be output.",
+                self.directory_container_vec_deque[iterator].get_directory_name()
+            );
+            std::process::exit(0);
         }
     }
 

@@ -286,4 +286,8 @@ impl DirectoryContainer {
     pub fn get_number_of_directory_items(&self) -> usize {
         self.directory_item_vec.len()
     }
+
+    pub fn get_directory_name(&self) -> &String {
+        &self.directory_name
+    }
 }
