@@ -18,9 +18,9 @@ enum ArrowKeys {
 fn event_loop() {
     let settings = settings::get_settings_from_file();
     let current_directory: PathBuf = env::current_dir().expect("Oops");
-    let path_containter: PathContainer =
+    let path_container: PathContainer =
         PathContainer::new(current_directory, settings.path_container_settings);
-    path_containter.print_path();
+    path_container.print_path();
 
     // loop {
 

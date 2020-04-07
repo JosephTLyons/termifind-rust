@@ -2,7 +2,7 @@
 
 TermiFind is heavily inspired by the MacOS Finder.  The goal of it is to create
 a cross-compatible tool that behaves like Finder within Terminal.  TermiFind is
-in its infancy; in its current state, it simply takes the current workin
+in its infancy; in its current state, it simply takes the current working
 directory and prints out a structure like this:
 
 ![main example](./images/main_example.png)
@@ -64,7 +64,7 @@ least wide enough to print the full container name.
 
 ## Work to be done
 
-There is a lot of work to be done in order to make TermiFind a useable tool.
+There is a lot of work to be done in order to make TermiFind a usable tool.
 Check the GitHub Issues for some things that could be worked on if you are
 interested in helping
 
