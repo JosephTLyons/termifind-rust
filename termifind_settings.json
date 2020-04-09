@@ -1,10 +1,10 @@
 {
     "path_container_settings": {
         "number_of_directory_containers_to_print_option": null,
-        "spacing_between_directory_containers": 1,
-        "spacing_between_directory_containers_char": " ",
-        "spacing_between_directory_container_rows": 1,
-        "spacing_between_directory_container_rows_char": " ",
+        "spaces_between_directory_containers": 1,
+        "char_between_directory_containers": " ",
+        "spaces_between_directory_container_rows": 1,
+        "char_between_directory_container_rows_char": " ",
         "filler_char": " ",
         "directory_container_settings": {
             "sort_directory_item_by_item_type_indicator": false,
