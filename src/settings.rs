@@ -6,7 +6,7 @@ use std::path::Path;
 #[allow(dead_code)]
 #[derive(serde_derive::Deserialize, Clone)]
 pub enum TruncationOptions {
-    None,
+    NoTruncation,
     Constant {
         constant: usize,
         should_include_truncated_text_indicator_in_length: bool,
