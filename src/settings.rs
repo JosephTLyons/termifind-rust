@@ -51,7 +51,7 @@ pub struct PathContainerSettings {
     pub spaces_between_directory_containers: usize,
     pub char_between_directory_containers: char,
     pub spaces_between_directory_container_rows: usize,
-    pub char_between_directory_container_rows_char: char,
+    pub char_between_directory_container_rows: char,
     pub filler_char: char,
 
     pub directory_container_settings: DirectoryContainerSettings,
@@ -69,7 +69,7 @@ fn get_default_settings() -> Settings {
             spaces_between_directory_containers: 1,
             char_between_directory_containers: ' ',
             spaces_between_directory_container_rows: 1,
-            char_between_directory_container_rows_char: ' ',
+            char_between_directory_container_rows: ' ',
             filler_char: ' ',
             directory_container_settings: DirectoryContainerSettings {
                 sort_directory_item_by_item_type_indicator: false,

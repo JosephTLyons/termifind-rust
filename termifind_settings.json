@@ -4,7 +4,7 @@
         "spaces_between_directory_containers": 1,
         "char_between_directory_containers": " ",
         "spaces_between_directory_container_rows": 1,
-        "char_between_directory_container_rows_char": " ",
+        "char_between_directory_container_rows": " ",
         "filler_char": " ",
         "directory_container_settings": {
             "sort_directory_item_by_item_type_indicator": false,

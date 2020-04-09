@@ -193,7 +193,7 @@ impl PathContainer {
                     "{}",
                     make_repeated_char_string(
                         self.path_container_settings
-                            .char_between_directory_container_rows_char,
+                            .char_between_directory_container_rows,
                         self.terminal_dimensions.0
                     )
                 );
