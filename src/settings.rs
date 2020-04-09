@@ -41,6 +41,7 @@ pub struct DirectoryContainerSettings {
     pub horizontal_border_symbol: char,
     pub vertical_border_symbol: char,
     pub content_divider_symbol: char,
+    pub padding_symbol_to_center_directory_names: char,
 
     pub directory_item_settings: DirectoryItemSettings,
 }
@@ -83,6 +84,7 @@ fn get_default_settings() -> Settings {
                 horizontal_border_symbol: '-',
                 vertical_border_symbol: '|',
                 content_divider_symbol: '=',
+                padding_symbol_to_center_directory_names: ' ',
                 directory_item_settings: DirectoryItemSettings {
                     item_type_indicator_directory: String::from("(D)"),
                     item_type_indicator_file: String::from("(F)"),

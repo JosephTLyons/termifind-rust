@@ -17,6 +17,7 @@
             "horizontal_border_symbol": "-",
             "vertical_border_symbol": "|",
             "content_divider_symbol": "=",
+            "padding_symbol_to_center_directory_names": " ",
             "directory_item_settings": {
                 "item_type_indicator_directory": "(D)",
                 "item_type_indicator_file": "(F)",

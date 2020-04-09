@@ -238,7 +238,12 @@ impl DirectoryContainer {
         print!(
             "{}{}{}",
             self.directory_container_settings.vertical_border_symbol,
-            add_padding_to_center_string(&self.directory_name, self.minimum_width + 2),
+            add_padding_to_center_string(
+                &self.directory_name,
+                self.directory_container_settings
+                    .padding_symbol_to_center_directory_names,
+                self.minimum_width + 2
+            ),
             self.directory_container_settings.vertical_border_symbol,
         );
     }
