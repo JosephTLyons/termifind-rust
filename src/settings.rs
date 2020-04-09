@@ -94,7 +94,7 @@ fn get_default_settings() -> Settings {
     }
 }
 
-pub fn get_settings_from_file() -> Settings {
+pub fn get_settings() -> Settings {
     // WILL NEED TO USE A CRATE TO FIND A PLACE TO STORE THE SETTINGS FILE THAT IS CROSS COMPATIBLE
     let path_to_json_settings_file =
         Path::new("/Users/josephlyons/Programming/Rust/termifind/termifind_settings.json");
