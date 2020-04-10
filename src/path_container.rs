@@ -34,7 +34,7 @@ impl PathContainer {
             }
         }
 
-        PathContainer::select_first_directory_in_current_directory_container(
+        PathContainer::select_first_directory_item_in_current_directory_container(
             &mut directory_container_vec_deque,
         );
 
@@ -60,7 +60,7 @@ impl PathContainer {
         }
     }
 
-    fn select_first_directory_in_current_directory_container(
+    fn select_first_directory_item_in_current_directory_container(
         directory_container_vec_deque: &mut VecDeque<DirectoryContainer>,
     ) {
         if let Some(directory_container) = directory_container_vec_deque.back_mut() {
