@@ -1,12 +1,13 @@
 use std::fs::{read_dir, ReadDir};
 use std::path::PathBuf;
 use std::vec::Vec;
+use outliers::get_tukeys_outliers;
 
 mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSettings};
 
 use crate::settings::{DirectoryContainerSettings, TruncationOptions};
-use crate::utils::maths::{get_average, get_outliers};
+use crate::utils::maths::{get_average};
 use crate::utils::string::{add_padding_to_center_string, make_repeated_char_string};
 
 pub struct DirectoryContainer {
@@ -137,20 +138,17 @@ impl DirectoryContainer {
             TruncationOptions::Outliers {
                 should_include_truncated_text_indicator_in_length,
             } => {
-                let outliers_vec_option = get_outliers(self.get_file_name_lengths_vec(false), true);
+                let outliers_result = get_tukeys_outliers(self.get_file_name_lengths_vec(false), true);
 
-                match outliers_vec_option {
-                    None => None,
-                    Some(outliers_vec) => Some(NameTruncationSettings {
-                        name_length_after_truncation: self
-                            .get_truncation_value_by_level(outliers_vec.1.len(), false),
-                        should_include_truncated_text_indicator_in_length,
-                        truncated_text_indicator: self
-                            .directory_container_settings
-                            .truncated_text_indicator
-                            .clone(),
-                    }),
-                }
+                Some(NameTruncationSettings {
+                    name_length_after_truncation: self
+                        .get_truncation_value_by_level(outliers_result.2.len(), false),
+                    should_include_truncated_text_indicator_in_length,
+                    truncated_text_indicator: self
+                        .directory_container_settings
+                        .truncated_text_indicator
+                        .clone(),
+                })
             }
             TruncationOptions::HorizontalFit => None, // Implement
         }

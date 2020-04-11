@@ -83,6 +83,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d515b1f41455adea1313a4a2ac8a8a477634fbae63cc6100e3aebb207ce61558"
 
 [[package]]
+name = "outliers"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4491b47414ec06f46e53ee6d5766c44d05b55491d0c0e10b476aa6693559d510"
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -176,6 +182,7 @@ name = "termifind"
 version = "0.1.0"
 dependencies = [
  "console",
+ "outliers",
  "serde",
  "serde_derive",
  "serde_json",
