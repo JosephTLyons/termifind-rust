@@ -3,8 +3,8 @@ pub fn get_average(data_vec: &[usize]) -> f32 {
         return 0.0;
     }
 
-    let sum_of_file_name_lengths: usize = data_vec.iter().sum();
-    sum_of_file_name_lengths as f32 / data_vec.len() as f32
+    let sum: usize = data_vec.iter().sum();
+    sum as f32 / data_vec.len() as f32
 }
 
 #[test]
