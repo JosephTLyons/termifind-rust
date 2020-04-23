@@ -1,12 +1,12 @@
-use std::collections::VecDeque;
-use std::path::{Path, PathBuf};
+use std::{
+    collections::VecDeque,
+    path::{Path, PathBuf},
+};
 
 mod directory_container;
-use directory_container::DirectoryContainer;
-use directory_container::ItemState;
+use directory_container::{DirectoryContainer, ItemState};
 
-use crate::settings::PathContainerSettings;
-use crate::utils::string::make_repeated_char_string;
+use crate::{settings::PathContainerSettings, utils::string::make_repeated_char_string};
 
 #[allow(dead_code)]
 pub struct PathContainer {

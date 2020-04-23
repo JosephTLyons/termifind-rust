@@ -1,7 +1,6 @@
 use serde_derive;
 use serde_json::from_str;
-use std::fs::read_to_string;
-use std::path::Path;
+use std::{fs::read_to_string, path::Path};
 
 #[allow(dead_code)]
 #[derive(serde_derive::Deserialize, Clone)]

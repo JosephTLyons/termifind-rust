@@ -1,7 +1,9 @@
 use std::fs::DirEntry;
 
-use crate::settings::DirectoryItemSettings;
-use crate::utils::string::{print_colored_text, truncate_text, Color};
+use crate::{
+    settings::DirectoryItemSettings,
+    utils::string::{print_colored_text, truncate_text, Color},
+};
 
 pub enum ItemState {
     DirectoryInPath,
