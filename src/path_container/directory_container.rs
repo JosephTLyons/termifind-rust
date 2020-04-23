@@ -4,6 +4,7 @@ use std::{
     vec::Vec,
 };
 
+use average::Mean;
 use outliers::get_tukeys_outliers;
 
 mod directory_item;
@@ -141,11 +142,14 @@ impl DirectoryContainer {
             TruncationOptions::Outliers {
                 should_include_truncated_text_indicator_in_length,
             } => {
-                let outliers_result = get_tukeys_outliers(self.get_file_name_lengths_vec(false), true);
+                let outliers_result =
+                    get_tukeys_outliers(self.get_file_name_lengths_vec(false), true);
 
                 Some(NameTruncationSettings {
-                    name_length_after_truncation: self
-                        .get_truncation_value_by_level(outliers_result.expect("Oops").2.len(), false),
+                    name_length_after_truncation: self.get_truncation_value_by_level(
+                        outliers_result.expect("Oops").2.len(),
+                        false,
+                    ),
                     should_include_truncated_text_indicator_in_length,
                     truncated_text_indicator: self
                         .directory_container_settings
