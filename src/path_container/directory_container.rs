@@ -178,12 +178,11 @@ impl DirectoryContainer {
     }
 
     fn get_truncated_value_by_file_name_average(&self) -> usize {
-        let file_name_length_average: Mean = self
-            .get_file_name_lengths_vec(false)
+        self.get_file_name_lengths_vec(false)
             .into_iter()
             .map(|file_name_length: usize| file_name_length as f64)
-            .collect();
-        file_name_length_average.mean() as usize
+            .collect::<Mean>()
+            .mean() as usize
     }
 
     fn set_minimum_width(&mut self) {
