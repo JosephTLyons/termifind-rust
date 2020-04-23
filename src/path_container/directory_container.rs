@@ -1,6 +1,9 @@
-use std::fs::{read_dir, ReadDir};
-use std::path::PathBuf;
-use std::vec::Vec;
+use std::{
+    fs::{read_dir, ReadDir},
+    path::PathBuf,
+    vec::Vec,
+};
+
 use outliers::get_tukeys_outliers;
 
 mod directory_item;
