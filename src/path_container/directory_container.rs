@@ -1,7 +1,6 @@
 use std::{
     fs::{read_dir, ReadDir},
     path::PathBuf,
-    vec::Vec,
 };
 
 use average::Mean;
