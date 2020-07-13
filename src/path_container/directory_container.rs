@@ -140,8 +140,12 @@ impl DirectoryContainer {
             TruncationOptions::Outliers {
                 should_include_truncated_text_indicator_in_length,
             } => {
-                let outliers_result =
-                    get_tukeys_outliers(self.get_file_name_lengths_vec(false), true);
+                let file_name_lengths_vec = self
+                    .get_file_name_lengths_vec(false)
+                    .iter()
+                    .map(|x| *x as f64)
+                    .collect();
+                let outliers_result = get_tukeys_outliers(file_name_lengths_vec, true);
 
                 Some(NameTruncationSettings {
                     name_length_after_truncation: self.get_truncation_value_by_level(
