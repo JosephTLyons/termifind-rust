@@ -258,9 +258,9 @@ dependencies = [
 
 [[package]]
 name = "outliers"
-version = "0.3.0"
+version = "0.4.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "03012a018805cf977c94e8cdfbf2486caacbec0b5b8bf02a1c75134896178854"
+checksum = "30cf953808a4234c7a93564f29d4e984765b7505dd196de5d67af53e6b79dbdb"
 dependencies = [
  "statrs",
 ]

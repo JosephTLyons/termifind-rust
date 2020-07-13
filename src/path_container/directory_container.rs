@@ -4,7 +4,7 @@ use std::{
 };
 
 use average::Mean;
-use outliers::get_tukeys_outliers;
+use outliers::OutlierIdentifier;
 
 mod directory_item;
 pub use directory_item::{DirectoryItem, ItemState, ItemType, NameTruncationSettings};
@@ -145,7 +145,8 @@ impl DirectoryContainer {
                     .iter()
                     .map(|x| *x as f64)
                     .collect();
-                let outliers_result = get_tukeys_outliers(file_name_lengths_vec, true);
+                let outliers_result =
+                    OutlierIdentifier::new(file_name_lengths_vec, true).get_outliers();
 
                 Some(NameTruncationSettings {
                     name_length_after_truncation: self.get_truncation_value_by_level(
