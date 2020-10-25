@@ -7,11 +7,11 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-average = "0.10.4"
-console = "0.11.3"
+average = "0.10.6"
+console = "0.13.0"
 num = "0.3.0"
-outliers = "0.4.0"
-serde = "1.0.114"
-serde_derive = "1.0.114"
-serde_json = "1.0.56"
+outliers = "0.4.1"
+serde = "1.0.117"
+serde_derive = "1.0.117"
+serde_json = "1.0.59"
 term_size = "0.3.2"
