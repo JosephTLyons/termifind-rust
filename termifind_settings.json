@@ -9,8 +9,9 @@
         "directory_container_settings": {
             "sort_directory_item_by_item_type_indicator": false,
             "should_display_hidden_files": false,
-            "truncation_options": {"Outliers": {
-                "should_include_truncated_text_indicator_in_length": true
+            "truncation_options": {
+                "Outliers": {
+                    "should_include_truncated_text_indicator_in_length": true
                 }
             },
             "truncated_text_indicator": "...",
